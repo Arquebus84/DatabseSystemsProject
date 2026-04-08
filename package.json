@@ -5,12 +5,22 @@
   "license": "ISC",
   "author": "Matteo Ventura",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "cjs": "^0.0.11",
+    "database": "^0.0.2",
+    "ejs": "^5.0.1",
     "express": "^5.2.1",
-    "mysql": "^2.18.1"
+    "module": "^2.0.0",
+    "mysql": "^2.18.1",
+    "router": "^2.2.0",
+    "sqlite": "^5.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

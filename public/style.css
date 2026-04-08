@@ -1,0 +1,58 @@
+header.NurseryTitle{
+    font-family: 'Times New Roman';
+    font-size: 35px;
+    right: 90%;
+}
+div.container{
+    display:grid;
+    align-items: center;
+    height: 15vh;
+}
+div.resultContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:20vh;
+}
+p.result{
+    position: fixed;
+    font-family: 'Georgia';
+    font-size: 25px;
+}
+
+button.table_patient{
+    position:fixed;
+    width: 20vw;
+    height:10vh;
+    margin-top: 0%;
+    /* vertical-align: 50%; */
+    font-family: 'Georgia';
+    font-size: 24px;
+}
+button.table_faculty{
+    position:fixed;
+    width:20vw;
+    height:10vh;
+    margin-top: 15%;
+    /* vertical-align: 50%; */
+    font-family: 'Georgia';
+    font-size: 24px;
+}
+button.table_family{
+    position:fixed;
+    width:20vw;
+    height:10vh;
+    margin-top: 30%;
+    /* vertical-align: 50%; */
+    font-family: 'Georgia';
+    font-size: 24px;
+}
+button.table_payment{
+    position:fixed;
+    width:20vw;
+    height:10vh;
+    margin-top: 45%;
+    /* vertical-align: 50%; */
+    font-family: 'Georgia';
+    font-size: 24px;
+}

@@ -7,9 +7,3 @@ const pool = createPool({
     database: 'fermentdb', 
     connectionLimit: 10
 })
-
-pool.query('show tables;', (err, result, fields)=>{
-    if(err)
-        console.log(err);
-    return console.log(result);
-});
