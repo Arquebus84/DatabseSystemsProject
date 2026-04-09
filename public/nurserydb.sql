@@ -174,7 +174,7 @@ CREATE TABLE `works_with` (
 
 
 INSERT INTO faculty_type VALUES (0, 'Doctor');
-INSERT INTO faculty_type VALUES (1, 'Nurser');
+INSERT INTO faculty_type VALUES (1, 'Nurse');
 
 INSERT INTO faculty VALUES (0, 'Ventura', 0);
 INSERT INTO faculty VALUES (1, 'Roe', 1);

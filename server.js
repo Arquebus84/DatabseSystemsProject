@@ -24,12 +24,4 @@ app.listen(PORT, ()=>{
     console.log(`App running on http://localhost:${PORT}`);
 });
 
-// app.get('/', (req, res)=>{
-//     res.sendFile(__dirname + '/public');
-// });
-
-// app.get('/', (req, res)=>{
-//     res.sendFile(__dirname + '/public/index.html');
-// });
-
 module.exports = app;

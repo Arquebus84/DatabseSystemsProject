@@ -9,12 +9,14 @@ var db = require('../database');
 router.get('/', function(request, response, next){
     // response.send('list all sample data');
     // response.render('main', {title: 'Express'});
+    // var quer = "Select count(*) from information_schema.tables where table_schema = nurserydb";
+
     var query = 'SELECT * FROM faculty';
     db.query(query, function(error, data){
         if(error){
             throw error;
         }else{
-            res.render('main', {title:'NodeJS MySQL Application', action:'list', sampleData:data});
+            response.render('main', {title:'NodeJS MySQL Application', action:'list', sampleData:data});
         }
     });
 });
