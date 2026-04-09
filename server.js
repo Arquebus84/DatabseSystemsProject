@@ -1,6 +1,5 @@
 var path = require('path');
 var express = require('express');
-// import express from 'express';
 var app = express();
 
 var data = require('./routes/data');
@@ -14,12 +13,12 @@ app.set('view engine', 'ejs');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views')));
 app.use('/', data);
 
 const PORT = 3000;
 
-app.use(express.static('public'));
+app.use(express.static('views'));
 
 app.listen(PORT, ()=>{
     console.log(`App running on http://localhost:${PORT}`);

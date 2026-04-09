@@ -13,6 +13,7 @@
   "dependencies": {
     "cjs": "^0.0.11",
     "database": "^0.0.2",
+    "document": "^0.0.0",
     "ejs": "^5.0.1",
     "express": "^5.2.1",
     "module": "^2.0.0",

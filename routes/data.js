@@ -1,10 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-// var db = require('./database');
+var db = require('../database');
 
-router.get('/', function(req, res, next){
-    res.render('example', {title: 'Express'});
+// const patientBT = document.getElementById("patientBT");
+
+//Database Logic
+router.get('/', function(request, response, next){
+    // response.send('list all sample data');
+    response.render('main', {title: 'Express'});
     // var query = 'SELECT * FROM faculty';
     // db.query(query, function(error, data){
     //     if(error){
@@ -15,8 +19,13 @@ router.get('/', function(req, res, next){
     // });
 });
 
-router.get('/add', function(req, res, next){
-    // response.send('sample data');
+router.get('/add', function(request, response, next){
+    response.send('sample data');
 });
+
+ //Button Logic
+// patientBT.addEventListener('click', function(e){
+//     document.getElementById("tableView").innerText = "Patient Table";
+// });
 
 module.exports = router;
