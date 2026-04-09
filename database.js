@@ -16,13 +16,13 @@ connection.connect(function(error){
 });
 
 //Check if faculty table exits
-const sql = "SELECT COUNT(*) AS table_exists FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'nurserydb' AND TABLE_NAME = 'faculty'";
-connection.query(sql, (err, results) => {
-    if (results.table_exists > 0) {
-        console.log("Table exists!");
-    } else {
-        console.error("Table 'faculty' is missing.");
-    }
-});
+// const sql = "SELECT COUNT(*) AS table_exists FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'nurserydb' AND TABLE_NAME = 'faculty'";
+// connection.query(sql, (err, results) => {
+//     if (results.table_exists > 0) {
+//         console.log("Table exists!");
+//     } else {
+//         console.error("Table 'faculty' is missing.");
+//     }
+// });
 
 module.exports = connection;

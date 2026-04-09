@@ -35,15 +35,15 @@
                         <tr>
                             <th>facultyID</th>
                             <th>facultyLastName</th>
-                            <th>facultyTypeID</th>
+                            <th>facultyType</th>
                         </tr>
                         <% if(sampleData.length > 0){ 
-                            sampleData.foreach(function(data){ 
+                            sampleData.forEach(function(data){ 
                         %>
                         <tr>
                             <td><%= data.facultyID %></td>
                             <td><%= data.facultyLastName %></td>
-                            <td><%= data.facultyTypeID %></td>
+                            <td><%= data.facultyType %></td>
                             <td></td>
                         </tr>
                         <%
