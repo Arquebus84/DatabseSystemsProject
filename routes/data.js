@@ -8,15 +8,15 @@ var db = require('../database');
 //Database Logic
 router.get('/', function(request, response, next){
     // response.send('list all sample data');
-    response.render('main', {title: 'Express'});
-    // var query = 'SELECT * FROM faculty';
-    // db.query(query, function(error, data){
-    //     if(error){
-    //         throw error;
-    //     }else{
-    //         res.render('example', {title:'NodeJS MySQL Application', action:'list', sampleData:data});
-    //     }
-    // });
+    // response.render('main', {title: 'Express'});
+    var query = 'SELECT * FROM faculty';
+    db.query(query, function(error, data){
+        if(error){
+            throw error;
+        }else{
+            res.render('main', {title:'NodeJS MySQL Application', action:'list', sampleData:data});
+        }
+    });
 });
 
 router.get('/add', function(request, response, next){
