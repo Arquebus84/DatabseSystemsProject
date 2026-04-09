@@ -12,7 +12,7 @@ const paymentBT = document.getElementById("paymentBT");
 const responseText = document.getElementById("tableView");
 
 // // const tableValues = new DataAccess();
-// db = DatabaseSync('nurseryDB.db');
+db = DatabaseSync('nurseryDB.db');
 //     // db = DatabaseSync('nurseryDB.db');
 // const rows = db.prepare('SELECT * FROM faculty').all();   //query.all()
 patientBT.addEventListener('click', function(e){
@@ -22,6 +22,33 @@ patientBT.addEventListener('click', function(e){
 });
 facultyBT.addEventListener('click', function(e){
     document.getElementById("tableView").innerText = "Faculty Table";//tableValues.getFacultyTable();
+
+    // Start the table and header row
+    let table = '<table class="table table-bordered">' +
+        '<tr>' +
+        '<td>facultyID</td>' +
+        '<td>facultyLastName</td>' +
+        '<td>facultyTypeID</td>'
+        '</tr>';
+
+    // Rows
+    const values = db.prepare('SELECT * FROM faculty JOIN faculty_type where faculty.facultyTypeID = faculty_type.facultyTypeID').all();
+
+    // Loop over each connection and create a row for each
+    values.forEach(function(data) {
+        // Append a row to the table for each connection
+        table += '<tr>' +
+            '<td id="facultyID' + i + '">' + data.facultyID + '</td>' +
+            '<td id="facultyLastName' + i + '">' + data.facultyLastName + '</td>' +
+            '<td id="facultyLastName' + i + '">' + data.facultyTypeID + '</td>'
+        '</tr>';
+    });
+
+    // Close the table
+    table += '</table>';
+
+    // Set the innerHTML of the connectionMod element
+    document.getElementById("table").innerHTML = table;
 });
 familyBT.addEventListener('click', function(e){
     document.getElementById("tableView").innerText = "Family Table";//tableValues.getFacultyTable();

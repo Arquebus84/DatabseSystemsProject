@@ -30,35 +30,8 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>facultyID</th>
-                            <th>facultyLastName</th>
-                            <th>facultyType</th>
-                        </tr>
-                        <% if(sampleData.length > 0){ 
-                            sampleData.forEach(function(data){ 
-                        %>
-                        <tr>
-                            <td><%= data.facultyID %></td>
-                            <td><%= data.facultyLastName %></td>
-                            <td><%= data.facultyType %></td>
-                            <td></td>
-                        </tr>
-                        <%
-                            });
-                        }
-                        else 
-                        {  
-                        %>
-                        <tr>
-                            <td colspan="5">No data found</td>
-                        </tr>
-                        <% 
-                        } 
-                        %>
-                    </table>
+                <div class="table-responsive" id="table">
+                    <!-- Table will autofill using code in index.js -->
                 </div>
             </div>
         </div>
