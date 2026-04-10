@@ -2,26 +2,28 @@
   "name": "databasewebsite",
   "version": "1.0.0",
   "description": "Website for the database",
+  "homepage": "https://github.com/Arquebus84/DatabseSystemsProject#readme",
+  "bugs": {
+    "url": "https://github.com/Arquebus84/DatabseSystemsProject/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arquebus84/DatabseSystemsProject.git"
+  },
   "license": "ISC",
   "author": "Matteo Ventura",
   "type": "commonjs",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "dependencies": {
-    "cjs": "^0.0.11",
-    "database": "^0.0.2",
-    "document": "^0.0.0",
+    "dotenv": "^17.3.1",
     "ejs": "^5.0.1",
     "express": "^5.2.1",
-    "module": "^2.0.0",
-    "mysql": "^2.18.1",
-    "router": "^2.2.0",
-    "sqlite": "^5.1.1"
-  },
-  "devDependencies": {
+    "express-ejs-layouts": "^2.5.1",
+    "mysql2": "^3.21.1",
     "nodemon": "^3.1.14"
   }
 }
