@@ -7,7 +7,6 @@ const connection = mysql.createConnection({
     database: 'nurserydb'
 });
 
-// This is what prints to your console
 connection.connect(function(err) {
     if (err) {
         console.error('DATABASE CONNECTION ERROR:', err.stack);
