@@ -24,20 +24,19 @@ patientBT.addEventListener('click', function(e){
             let table = '<table class="table table-bordered"><tr>' +
                 '<th>ID</th><th>First Name</th><th>Last Name</th><th>Priority</th><th>Condition</th><th>Family</th></tr>';
 
-            console.log("Data is " + typeof(data));
+            // console.log("Data is " + typeof(data));
             // Fill rows by row
             Object.values(data).forEach(row => {
                 table += `<tr><td>${row.ID}</td>` +
                     `<td>${row.firstName}</td>` +
                     `<td>${row.lastName}</td>` +
                     `<td>${row.priority}</td>` +
-                    `<td>${row.condition}</td>` +
+                    `<td>${row.conditionDesc}</td>` +
                     `<td>${row.familyContact}</td></tr>`;
             });
 
             // Add table closing
             table += '</table>';
-
             // Insert table into html
             document.getElementById("table").innerHTML = table;
         });

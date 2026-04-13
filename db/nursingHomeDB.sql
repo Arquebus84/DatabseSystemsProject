@@ -187,8 +187,8 @@ INSERT INTO trusted_family VALUES (0, "Bowers", 0);
 INSERT INTO trusted_family VALUES (1, "Clints", 2);
 INSERT INTO trusted_family VALUES (2, "Stewart", 1);
 
-INSERT INTO patient VALUES (0, "Todd", "Howard", 5, 'Headache', 2);
-INSERT INTO patient VALUES (1, "Will", "Bowers", 3, 'Dimentia', 0);
+INSERT INTO patient VALUES (0, "Todd", "Howard", 5, "Headache", 2);
+INSERT INTO patient VALUES (1, "Will", "Bowers", 3, "Dimentia", 0);
 
 INSERT INTO patient_room VALUES (0, 1132, 1);
 INSERT INTO patient_room VALUES (1, 2002, 0);

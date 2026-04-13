@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 
 var dataRoutes = require('./src/routes/data');
-const db = require('./src/models/database');
+// const db = require('./src/models/database');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
