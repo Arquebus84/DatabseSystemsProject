@@ -55,7 +55,7 @@ facultyBT.addEventListener('click', function(e){
             
             //console.log("Data is " + typeof(data));
             // Fill rows by row
-            data.forEach(row => {
+            Object.values(data).forEach(row => {
                 table += `<tr><td>${row.facultyID}</td>` +
                     `<td>${row.facultyLastName}</td>` +
                     `<td>${row.facultyType}</td></tr>`;
@@ -82,7 +82,7 @@ paymentBT.addEventListener('click', function(e){
                 let table = '<table class="table table-bordered"><tr>' +
                     '<th>ID</th><th>price</th><th>tax</th>';
 
-                data.forEach(row =>{
+                Object.values(data).forEach(row =>{
                     table += `<tr><td>${row.paymentID}</td>`+
                         `<td>${row.price}</td>` +
                         `<td>${row.tax}</td></tr>`;
@@ -102,7 +102,7 @@ paySumBT.addEventListener('click', function(e){
                 let table = '<table class="table table-bordered"><tr>' +
                     '<th>ID</th><th>Net Payment</th><th>tax</th>';
 
-                data.forEach(row =>{
+                Object.values(data).forEach(row =>{
                     table += `<tr><td>${row.netPayment}</td>`+
                         `<td>${row.patientName}</td></tr>`
                 });
