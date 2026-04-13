@@ -56,3 +56,21 @@ button.table_payment{
     font-family: 'Georgia';
     font-size: 24px;
 }
+button.table_room{
+    position:fixed;
+    width:20vw;
+    height:10vh;
+    margin-top: 60%;
+    /* vertical-align: 50%; */
+    font-family: 'Georgia';
+    font-size: 24px;
+}
+button.table_paySum{
+    position:fixed;
+    width:20vw;
+    height:10vh;
+    margin-top: 75%;
+    /* vertical-align: 50%; */
+    font-family: 'Georgia';
+    font-size: 24px;
+}

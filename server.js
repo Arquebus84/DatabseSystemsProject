@@ -5,10 +5,6 @@ var app = express();
 var dataRoutes = require('./src/routes/data');
 const db = require('./src/models/database');
 
-// var db = require('./database');
-
-// var indexRouter = require('./routes/data');  //Fix this
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('views', path.join(__dirname, 'src', 'views'));
@@ -17,7 +13,7 @@ app.set('view engine', 'ejs');
 app.use('/api', dataRoutes);
 
 app.get('/', (req, res) => {
-    res.render('home', { title: 'Nursery Database' });
+    res.render('home', { title: 'Nursing Home Database' });
 });
 
 const PORT = 3000;

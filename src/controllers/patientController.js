@@ -4,11 +4,11 @@ exports.getPatientTable = (req, res) => {
     // SQL command. Names mush match name in index.js
     const sql = `
         SELECT
-            p.patientID,
-            p.firstName,
-            p.lastName,
-            p.patientPriority,
-            p.conditiondesc,
+            p.patientID AS ID,
+            p.firstName AS firstName,
+            p.lastName AS lastName,
+            p.patientPriority AS priority,
+            p.conditionDesc AS condition,
             tf.lastName AS familyContact
         FROM patient p
         JOIN trusted_family tf ON p.familyID = tf.familyID
