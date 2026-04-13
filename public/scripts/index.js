@@ -21,18 +21,19 @@ patientBT.addEventListener('click', function(e){
         .then(data => {
 
             // Create table header
-            let table = '<table class="table table-bordered"><tr>' +
-                '<th>ID</th><th>First Name</th><th>Last Name</th><th>Priority</th><th>Condition</th><th>Family</th></tr>';
+            let table = '<table class="tableFormat table-bordered">'+
+                '<tr><th class="tableFormat">ID</th><th class="tableFormat">First Name</th><th class="tableFormat">Last Name</th>'+
+                '<th class="tableFormat">Priority</th><th class="tableFormat">Condition</th><th class="tableFormat">Family</th></tr>';
 
             // console.log("Data is " + typeof(data));
             // Fill rows by row
             Object.values(data).forEach(row => {
-                table += `<tr><td>${row.ID}</td>` +
-                    `<td>${row.firstName}</td>` +
-                    `<td>${row.lastName}</td>` +
-                    `<td>${row.priority}</td>` +
-                    `<td>${row.conditionDesc}</td>` +
-                    `<td>${row.familyContact}</td></tr>`;
+                table += `<tr><td class="tableFormat">${row.ID}</td>` +
+                    `<td class="tableFormat">${row.firstName}</td>` +
+                    `<td class="tableFormat">${row.lastName}</td>` +
+                    `<td class="tableFormat">${row.priority}</td>` +
+                    `<td class="tableFormat">${row.conditionDesc}</td>` +
+                    `<td class="tableFormat">${row.familyContact}</td></tr>`;
             });
 
             // Add table closing
@@ -49,15 +50,15 @@ facultyBT.addEventListener('click', function(e){
         .then(data => {
 
             // Create table header
-            let table = '<table class="table table-bordered"><tr>' +
-                '<th>ID</th><th>Last Name</th><th>Type</th></tr>';
+            let table = '<table class="tableFormat table-bordered"><tr>' +
+                '<th class="tableFormat">ID</th><th class="tableFormat">Last Name</th><th class="tableFormat">Type</th></tr>';
             
             //console.log("Data is " + typeof(data));
             // Fill rows by row
             Object.values(data).forEach(row => {
-                table += `<tr><td>${row.facultyID}</td>` +
-                    `<td>${row.facultyLastName}</td>` +
-                    `<td>${row.facultyType}</td></tr>`;
+                table += `<tr><td class="tableFormat">${row.facultyID}</td>` +
+                    `<td class="tableFormat">${row.facultyLastName}</td>` +
+                    `<td class="tableFormat">${row.facultyType}</td></tr>`;
             });
 
             // Add table closing
@@ -78,13 +79,13 @@ paymentBT.addEventListener('click', function(e){
         .then(response => response.json())
             .then(data =>{
                 // Create table header
-                let table = '<table class="table table-bordered"><tr>' +
-                    '<th>ID</th><th>price</th><th>tax</th>';
+                let table = '<table class="tableFormat table-bordered">'+
+                    '<tr><th class="tableFormat">ID</th><th class="tableFormat">Price</th><th class="tableFormat">Tax</th><tr>';
 
                 Object.values(data).forEach(row =>{
-                    table += `<tr><td>${row.paymentID}</td>`+
-                        `<td>${row.price}</td>` +
-                        `<td>${row.tax}</td></tr>`;
+                    table += `<tr><td class="tableFormat">${row.paymentID}</td>`+
+                        `<td class="tableFormat">${row.price}</td>` +
+                        `<td class="tableFormat">${row.tax}</td></tr>`;
                 });
 
                 table += '</table>';
@@ -98,12 +99,12 @@ paySumBT.addEventListener('click', function(e){
         .then(response => response.json())
             .then(data =>{
                 // Create table header
-                let table = '<table class="table table-bordered"><tr>' +
-                    '<th>ID</th><th>Net Payment</th><th>tax</th>';
+                let table = '<table class="tableFormat table-bordered"><tr>' +
+                    '<th>Net Payment</th><th>Patient Last Name</th>';
 
                 Object.values(data).forEach(row =>{
-                    table += `<tr><td>${row.netPayment}</td>`+
-                        `<td>${row.patientName}</td></tr>`
+                    table += `<tr><td class="tableFormat">${row.netPayment}</td>`+
+                        `<td class="tableFormat">${row.patientName}</td></tr>`
                 });
 
                 table += '</table>';

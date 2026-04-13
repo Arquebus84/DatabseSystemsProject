@@ -1,7 +1,7 @@
 const pool = require('../models/database');
 
 exports.getPaySumTable = (req,res)=>{
-    const sql = `SELECT sum(psys.price * psys.tax * 0.01 + psys.price) AS netPayment, pat.lastName AS patientName FROM payment_summary psum 
+    const sql = `SELECT ROUND(sum(psys.price * psys.tax * 0.01 + psys.price), 2) AS netPayment, pat.lastName AS patientName FROM payment_summary psum 
         JOIN payment_system psys 
         JOIN patient pat 
         where psum.paymentID = psys.paymentID AND psum.patientID = pat.patientID GROUP BY pat.lastName;

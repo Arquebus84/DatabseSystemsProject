@@ -14,3 +14,7 @@ exports.getPatientTable = (req, res) => {
         res.json(results);
     });
 };
+
+exports.setPatientTable = (req, res) =>{
+    
+};
