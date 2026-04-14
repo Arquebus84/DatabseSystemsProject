@@ -3,6 +3,8 @@
 // const express = require('express');
 // const {DatabaseSync} = require('node:sqlite');
 
+const { response } = require("express");
+
 // const { json } = require("express");
 
 // const table = document.getElementById("tableView");
@@ -46,7 +48,7 @@ patientBT.addEventListener('click', function(e){
             // Insert table into html
             document.getElementById("table").innerHTML = table;
 
-            //Display the insert table
+            //Display the insert table and show add button
             let attributes = '<th>First Name</th><th>Last Name</th><th>Priority</th><th>Condition</th><th>Trusted Family</th>'
             let insertion = 
                 '<table class="insertTable">'+
@@ -60,10 +62,12 @@ patientBT.addEventListener('click', function(e){
                 '</table>';
             document.getElementById("attribute").innerHTML = attributes;
             document.getElementById("newRow").innerHTML = insertion;
+            document.getElementById("addData").style.visibility = 'visible';
         });
 });
 familyBT.addEventListener('click', function(e){
     // document.getElementById("tableView").innerText = "Family Table";//tableValues.getFacultyTable();
+    document.getElementById("addData").style.display = true;
 });
 roomBT.addEventListener('click', function(e){
     fetch('/api/roomTable')
@@ -82,6 +86,9 @@ roomBT.addEventListener('click', function(e){
             table += '</table>';
 
             document.getElementById("table").innerHTML = table;
+
+            //Display the insert table and show add button
+            document.getElementById("addData").style.visibility = 'visible';
         });
 });
 paySumBT.addEventListener('click', function(e){
@@ -101,7 +108,10 @@ paySumBT.addEventListener('click', function(e){
 
                 document.getElementById("table").innerHTML = table;
 
-                document.getElementById("insertStuff").innerHTML = "";
+                //Display the insert table and don't show add button
+                document.getElementById("attribute").innerHTML = "";
+                document.getElementById("newRow").innerHTML = "";
+                document.getElementById("addData").style.visibility = 'hidden';
             });
 });
 
@@ -130,7 +140,7 @@ facultyBT.addEventListener('click', function(e){
             // Insert table into html
             document.getElementById("table").innerHTML = table;
 
-            //Display the insert table
+            //Display the insert table and show add button
             let attributes = '<th>Last Name</th><th>Faculty Type</th>'
             let insertion = 
                 '<table class="insertTable">'+
@@ -141,10 +151,46 @@ facultyBT.addEventListener('click', function(e){
                 '</table>';
             document.getElementById("attribute").innerHTML = attributes;
             document.getElementById("newRow").innerHTML = insertion;
+            document.getElementById("addData").style.visibility = 'visible';
         })
 });
 
 /*Medications*/
+
+medicationBT.addEventListener('click', function(e){
+    fetch('/api/medicationTable')
+        .then(response => response.json())
+            .then(data =>{
+                // Create table header
+                let table = '<table class="tableFormat table-bordered">'+
+                    '<tr><th class="tableFormat">ID</th><th class="tableFormat">Medication</th><th class="tableFormat">Cost</th></tr>';
+
+                // console.log("Data is " + typeof(data));
+                // Fill rows by row
+                Object.values(data).forEach(row => {
+                    table += `<tr><td class="tableFormat">${row.Medication}</td>` +
+                        `<td class="tableFormat">${row.Cost}</td></tr>`;
+                });
+
+                // Add table closing
+                table += '</table>';
+                // Insert table into html
+                document.getElementById("table").innerHTML = table;
+
+                //Display the insert table and show add button
+                let attributes = '<th>Medication</th><th>Last Name</th>'
+                let insertion = 
+                    '<table class="insertTable">'+
+                        '<tr>'+
+                            '<input class="insert"></input>'+
+                            '<select class="insertOption" style="margin-left:5.5%"></select>'+
+                        '</tr>'+
+                    '</table>';
+                document.getElementById("attribute").innerHTML = attributes;
+                document.getElementById("newRow").innerHTML = insertion;
+                document.getElementById("addData").style.visibility = 'visible';
+            });
+});
 paymentBT.addEventListener('click', function(e){
     // document.getElementById("tableView").innerText = "Payment Table";//tableValues.getFacultyTable();
     fetch('/api/paymentTable')
@@ -164,7 +210,7 @@ paymentBT.addEventListener('click', function(e){
 
                 document.getElementById("table").innerHTML = table;
 
-                //Display the insert table
+                //Display the insert table and show add button
                 let attributes = '<th style="width:5vw">Price</th><th style="width:5vw">Tax</th>'
                 let insertion = 
                     '<table class="insertTable">'+
@@ -175,5 +221,6 @@ paymentBT.addEventListener('click', function(e){
                     '</table>';
                 document.getElementById("attribute").innerHTML = attributes;
                 document.getElementById("newRow").innerHTML = insertion;
+                document.getElementById("addData").style.visibility = 'visible';
             });
 });

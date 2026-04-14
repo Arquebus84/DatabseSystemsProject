@@ -65,6 +65,7 @@ button.addButton{
     position:fixed;
     width: 8vw;
     top: 50%;
+    visibility: hidden;
 }
 
 /*Patients*/
@@ -139,6 +140,14 @@ button.table_medications{
     font-size: 18px;
 }
 button.table_payment{
+    position:fixed;
+    width:16vw;
+    height:4vh;
+    margin-top: 2%;
+    font-family: 'Georgia';
+    font-size: 18px;
+}
+button.table_patientMeds{
     position:fixed;
     width:16vw;
     height:4vh;
