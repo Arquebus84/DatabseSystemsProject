@@ -1,10 +1,5 @@
-// import { Database } from "sqlite";
-// import DataAccess from './database.js';
-// const express = require('express');
-// const {DatabaseSync} = require('node:sqlite');
 
 // const { response } = require("express");
-
 // const { json } = require("express");
 
 // const table = document.getElementById("tableView");
@@ -67,7 +62,7 @@ patientBT.addEventListener('click', function(e){
 });
 familyBT.addEventListener('click', function(e){
     // document.getElementById("tableView").innerText = "Family Table";//tableValues.getFacultyTable();
-    document.getElementById("addData").style.display = true;
+    document.getElementById("addData").style.visibility = 'visible';
 });
 roomBT.addEventListener('click', function(e){
     fetch('/api/roomTable')
