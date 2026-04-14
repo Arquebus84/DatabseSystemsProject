@@ -22,6 +22,6 @@ router.get('/facultyTable', facultyController.getFacultyTable);
 router.get('/assignedTable', assignmentController.getAssignmentTable);
 
 router.get('/medicationTable', medicationController.getMedicationTable);
-router.get('/paymentTable', paymentController.getMedicationTable);
+router.get('/paymentTable', paymentController.getPaymentTable);
 
 module.exports = router;

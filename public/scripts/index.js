@@ -5,7 +5,7 @@
 
 // const { json } = require("express");
 
-// // const table = document.getElementById("tableView");
+// const table = document.getElementById("tableView");
 const patientBT = document.getElementById("patientBT");
 const familyBT = document.getElementById("familyBT");
 const roomBT = document.getElementById("roomBT");
@@ -66,23 +66,23 @@ familyBT.addEventListener('click', function(e){
     // document.getElementById("tableView").innerText = "Family Table";//tableValues.getFacultyTable();
 });
 roomBT.addEventListener('click', function(e){
-    // fetch('/api/roomTable')
-    //     .then(response => response.json())
-    //     .then(data => {
+    fetch('/api/roomTable')
+        .then(response => response.json())
+        .then(data => {
 
-    //         let table = '<table class="tableFormat table-bordered"><tr>' +
-    //             '<th>Room Number</th><th>Patient First Name</th><th>Patient Last Name</th>';
+            let table = '<table class="tableFormat table-bordered"><tr>' +
+                '<th>Room Number</th><th>Patient First Name</th><th>Patient Last Name</th>';
 
-    //         Object.values(data).forEach(row=>{
-    //             table += `<tr><td class="tableFormat">${row.roomNumber}</td>`+
-    //                 `<td class="tableFormat">${row.firstName}</td></tr>` +
-    //                 `<td class="tableFormat">${row.lastName}</td></tr>`;
-    //         });
+            Object.values(data).forEach(row=>{
+                table += `<tr><td class="tableFormat">${row.roomNumber}</td>`+
+                    `<td class="tableFormat">${row.firstName}</td>` +
+                    `<td class="tableFormat">${row.lastName}</td></tr>`;
+            });
 
-    //         table += '</table>';
+            table += '</table>';
 
-    //         document.getElementById("table").innerHTML = table;
-    //     });
+            document.getElementById("table").innerHTML = table;
+        });
 });
 paySumBT.addEventListener('click', function(e){
     fetch('/api/paySumTable')
