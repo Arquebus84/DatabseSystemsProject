@@ -1,6 +1,5 @@
 
-// const { response } = require("express");
-// const { json } = require("express");
+
 
 // const table = document.getElementById("tableView");
 const patientBT = document.getElementById("patientBT");
@@ -15,10 +14,12 @@ const medicationBT = document.getElementById('medicationBT');
 const paymentBT = document.getElementById("paymentBT");
 const patientMedsBT = document.getElementById("patientMedsBT");
 
+const addBT = document.getElementById('addData');
+
 
 patientBT.addEventListener('click', function(e){
     // Fetch result from patient controller
-    fetch('/api/patientTable')
+    fetch('/api/getPatientTable')
         .then(response => response.json())
         .then(data => {
 
@@ -65,7 +66,7 @@ familyBT.addEventListener('click', function(e){
     document.getElementById("addData").style.visibility = 'visible';
 });
 roomBT.addEventListener('click', function(e){
-    fetch('/api/roomTable')
+    fetch('/api/getRoomTable')
         .then(response => response.json())
         .then(data => {
 
@@ -88,7 +89,7 @@ roomBT.addEventListener('click', function(e){
 });
 
 paySumBT.addEventListener('click', function(e){
-    fetch('/api/paySumTable')
+    fetch('/api/getPaySumTable')
         .then(response => response.json())
             .then(data =>{
                 // Create table header
@@ -114,7 +115,7 @@ paySumBT.addEventListener('click', function(e){
 /*Faculty*/
 facultyBT.addEventListener('click', function(e){
     // Fetch result from faculty controller
-    fetch('/api/facultyTable')
+    fetch('/api/getFacultyTable')
         .then(response => response.json())
         .then(data => {
 
@@ -152,9 +153,8 @@ facultyBT.addEventListener('click', function(e){
 });
 
 /*Medications*/
-
 medicationBT.addEventListener('click', function(e){
-    fetch('/api/medicationTable')
+    fetch('/api/getMedicationTable')
         .then(response => response.json())
             .then(data =>{
                 // Create table header
@@ -191,7 +191,7 @@ medicationBT.addEventListener('click', function(e){
 });
 paymentBT.addEventListener('click', function(e){
     // document.getElementById("tableView").innerText = "Payment Table";//tableValues.getFacultyTable();
-    fetch('/api/paymentTable')
+    fetch('/api/getPaymentTable')
         .then(response => response.json())
             .then(data =>{
                 // Create table header
@@ -223,7 +223,7 @@ paymentBT.addEventListener('click', function(e){
             });
 });
 patientMedsBT.addEventListener('click', function(e){
-    fetch('/api/patientMedsTable')
+    fetch('/api/getPatientMedsTable')
         .then(response => response.json())
             .then(data =>{
                 // Create table header
@@ -253,4 +253,14 @@ patientMedsBT.addEventListener('click', function(e){
                 document.getElementById("newRow").innerHTML = insertion;
                 document.getElementById("addData").style.visibility = 'visible';
             });
+});
+
+/*Add Button */
+addBT.addEventListener('click', function(e){
+    //add patient
+    fetch('api/setPatientTable')
+    .then(response => response.json)
+        .then(data =>{
+
+        });
 });
