@@ -7,10 +7,15 @@
 
 // // const table = document.getElementById("tableView");
 const patientBT = document.getElementById("patientBT");
-const facultyBT = document.getElementById('facultyBT');
 const familyBT = document.getElementById("familyBT");
-const paymentBT = document.getElementById("paymentBT");
+const roomBT = document.getElementById("roomBT");
 const paySumBT = document.getElementById("paySumBT");
+
+const facultyBT = document.getElementById('facultyBT');
+const assignBT = document.getElementById('assignBT');
+
+const medicationBT = document.getElementById('medicationBT');
+const paymentBT = document.getElementById("paymentBT");
 
 //     // db = DatabaseSync('nurseryDB.db');
 // const rows = db.prepare('SELECT * FROM faculty').all();   //query.all()
@@ -40,9 +45,67 @@ patientBT.addEventListener('click', function(e){
             table += '</table>';
             // Insert table into html
             document.getElementById("table").innerHTML = table;
+
+            //Display the insert table
+            let attributes = '<th>First Name</th><th>Last Name</th><th>Priority</th><th>Condition</th><th>Trusted Family</th>'
+            let insertion = 
+                '<table class="insertTable">'+
+                    '<tr>'+
+                        '<input class="insert"></input>'+
+                        '<input class="insert" style="margin-left:5.5%"></input>'+
+                        '<input class="insert" style="margin-left:10.5%"></input>'+
+                        '<input class="insert" style="margin-left:15.5%"></input>'+
+                        '<select class="insertOption" style="margin-left:21%"></select>'+
+                    '</tr>'+
+                '</table>';
+            document.getElementById("attribute").innerHTML = attributes;
+            document.getElementById("newRow").innerHTML = insertion;
         });
 });
+familyBT.addEventListener('click', function(e){
+    // document.getElementById("tableView").innerText = "Family Table";//tableValues.getFacultyTable();
+});
+roomBT.addEventListener('click', function(e){
+    // fetch('/api/roomTable')
+    //     .then(response => response.json())
+    //     .then(data => {
 
+    //         let table = '<table class="tableFormat table-bordered"><tr>' +
+    //             '<th>Room Number</th><th>Patient First Name</th><th>Patient Last Name</th>';
+
+    //         Object.values(data).forEach(row=>{
+    //             table += `<tr><td class="tableFormat">${row.roomNumber}</td>`+
+    //                 `<td class="tableFormat">${row.firstName}</td></tr>` +
+    //                 `<td class="tableFormat">${row.lastName}</td></tr>`;
+    //         });
+
+    //         table += '</table>';
+
+    //         document.getElementById("table").innerHTML = table;
+    //     });
+});
+paySumBT.addEventListener('click', function(e){
+    fetch('/api/paySumTable')
+        .then(response => response.json())
+            .then(data =>{
+                // Create table header
+                let table = '<table class="tableFormat table-bordered"><tr>' +
+                    '<th>Net Payment</th><th>Patient Last Name</th>';
+
+                Object.values(data).forEach(row =>{
+                    table += `<tr><td class="tableFormat">${row.netPayment}</td>`+
+                        `<td class="tableFormat">${row.patientName}</td></tr>`
+                });
+
+                table += '</table>';
+
+                document.getElementById("table").innerHTML = table;
+
+                document.getElementById("insertStuff").innerHTML = "";
+            });
+});
+
+/*Faculty*/
 facultyBT.addEventListener('click', function(e){
     // Fetch result from faculty controller
     fetch('/api/facultyTable')
@@ -66,13 +129,22 @@ facultyBT.addEventListener('click', function(e){
 
             // Insert table into html
             document.getElementById("table").innerHTML = table;
+
+            //Display the insert table
+            let attributes = '<th>Last Name</th><th>Faculty Type</th>'
+            let insertion = 
+                '<table class="insertTable">'+
+                    '<tr>'+
+                        '<input class="insert"></input>'+
+                        '<select class="insertOption" style="margin-left:5.5%"></select>'+
+                    '</tr>'+
+                '</table>';
+            document.getElementById("attribute").innerHTML = attributes;
+            document.getElementById("newRow").innerHTML = insertion;
         })
 });
 
-familyBT.addEventListener('click', function(e){
-    // document.getElementById("tableView").innerText = "Family Table";//tableValues.getFacultyTable();
-});
-
+/*Medications*/
 paymentBT.addEventListener('click', function(e){
     // document.getElementById("tableView").innerText = "Payment Table";//tableValues.getFacultyTable();
     fetch('/api/paymentTable')
@@ -91,24 +163,17 @@ paymentBT.addEventListener('click', function(e){
                 table += '</table>';
 
                 document.getElementById("table").innerHTML = table;
-            });
-});
 
-paySumBT.addEventListener('click', function(e){
-    fetch('/api/paySumTable')
-        .then(response => response.json())
-            .then(data =>{
-                // Create table header
-                let table = '<table class="tableFormat table-bordered"><tr>' +
-                    '<th>Net Payment</th><th>Patient Last Name</th>';
-
-                Object.values(data).forEach(row =>{
-                    table += `<tr><td class="tableFormat">${row.netPayment}</td>`+
-                        `<td class="tableFormat">${row.patientName}</td></tr>`
-                });
-
-                table += '</table>';
-
-                document.getElementById("table").innerHTML = table;
+                //Display the insert table
+                let attributes = '<th style="width:5vw">Price</th><th style="width:5vw">Tax</th>'
+                let insertion = 
+                    '<table class="insertTable">'+
+                        '<tr>'+
+                            '<input class="insert"></input>'+
+                            '<input class="insert" style="margin-left:5.5%"></input>'+
+                        '</tr>'+
+                    '</table>';
+                document.getElementById("attribute").innerHTML = attributes;
+                document.getElementById("newRow").innerHTML = insertion;
             });
 });

@@ -10,25 +10,35 @@
 <body lang="en">
     <div class="leftContainer">
         <div class="buttonContainer">
-            <button class="table_patient" id="patientBT">Patient</button>
-            <button class="table_family" id="familyBT">Family</button>
-            <button class="table_payment" id="paymentBT">Payment Processing</button>
-            <button class="table_faculty" id="facultyBT">Faculty</button>
-            <button class="table_room" id="roomBT">Patient Rooms</button>
-            <button class="table_paySum" id="paySumBT">Payment Summary</button>
+            <div class="patientOptions">
+                <h1>Patient Options</h1>
+                <button class="table_patient" id="patientBT">Patient</button>
+                <button class="table_family" id="familyBT">Patient Family</button>
+                <button class="table_room" id="roomBT">Patient Rooms</button>
+                <button class="table_paySum" id="paySumBT">Payment Summary</button>
+            </div>
+
+            <div class="facultyOptions">
+                <h1>Faculty Options</h1>
+                <button class="table_faculty" id="facultyBT">Faculty</button>
+                <button class="table_assignment" id="assignBT">Faculty-Patient Assignment</button>
+            </div>
             
+            <div class="medicationOptions">
+                <h1>Medication Options</h1>
+                <button class="table_medications" id="medicationBT">Medications</button>
+                <button class="table_payment" id="paymentBT">Medication Cost</button>
+            </div>
         </div>
     </div>
     <div class="rightContainer">
-        <div class="insertContainer">
-            <table class="insertTable">
-                <tr>
-                    <td>
-                        <input class="insert" value="insert data"></input>
-                    </td>
-                </tr>
+        <div class="insertContainer" id="insertStuff">
+            <table>
+                <tr id="attribute"></tr>
             </table>
+            <div id="newRow"></div>
         </div>
+        <button class="addButton">Add</button>
     </div>
     <div class="resultContainer">
         <!-- <p class="result" id="tableView">Results Here</p> -->

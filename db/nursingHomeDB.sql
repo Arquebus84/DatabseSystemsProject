@@ -103,8 +103,8 @@ CREATE TABLE `patient` (
 
 DROP TABLE IF EXISTS `patient_room`;
 CREATE TABLE `patient_room` (
-  `patientroomID` INTEGER NOT NULL UNIQUE,
-  `patientroomNumber` varchar(4) NOT NULL,
+  `patientRoomID` INTEGER NOT NULL UNIQUE,
+  `patientRoomNumber` varchar(4) NOT NULL,
   `patientID` INTEGER NOT NULL,
   PRIMARY KEY (`patientroomID`,`patientID`),
   CONSTRAINT `patient_room_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`)
@@ -199,3 +199,5 @@ INSERT INTO assigned_room VALUES (0, 3, 1);
 INSERT INTO payment_summary VALUES (0, 0, 1, 0);
 INSERT INTO payment_summary VALUES (1, 0, 3, 1);
 INSERT INTO payment_summary VALUES (2, 0, 0, 1);
+
+-- INSERT INTO works_with VALUES ()
