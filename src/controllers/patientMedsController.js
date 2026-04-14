@@ -1,12 +1,12 @@
 const pool = require('../models/database');
 
 exports.getPatientMedsTable = (req, res) =>{
-    const sql = `SELECT p.firstName AS firstName, p.lastName AS lastName, med.medicationType 
-    FROM patient p
-    JOIN patient_med pmed
-    JOIN medication med
-    JOIN payment_system sys
-    WHERE med.priceID = sys.paymentID AND p.patientID = pmed.patientID;`;
+    const sql = `SELECT p.firstName AS firstName, p.lastName AS lastName, med.medicationType AS medication
+        FROM patient_med pmed
+        JOIN medication med
+        JOIN patient p
+        WHERE pmed.patientID = p.patientID AND pmed.medicationID = med.medicationID
+    `;
 
     // Query server with SQL command
     pool.query(sql, (err, results) => {

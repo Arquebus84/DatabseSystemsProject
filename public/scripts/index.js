@@ -3,7 +3,7 @@
 // const express = require('express');
 // const {DatabaseSync} = require('node:sqlite');
 
-const { response } = require("express");
+// const { response } = require("express");
 
 // const { json } = require("express");
 
@@ -18,9 +18,9 @@ const assignBT = document.getElementById('assignBT');
 
 const medicationBT = document.getElementById('medicationBT');
 const paymentBT = document.getElementById("paymentBT");
+const patientMedsBT = document.getElementById("patientMedsBT");
 
-//     // db = DatabaseSync('nurseryDB.db');
-// const rows = db.prepare('SELECT * FROM faculty').all();   //query.all()
+
 patientBT.addEventListener('click', function(e){
     // Fetch result from patient controller
     fetch('/api/patientTable')
@@ -91,6 +91,7 @@ roomBT.addEventListener('click', function(e){
             document.getElementById("addData").style.visibility = 'visible';
         });
 });
+
 paySumBT.addEventListener('click', function(e){
     fetch('/api/paySumTable')
         .then(response => response.json())
@@ -163,13 +164,15 @@ medicationBT.addEventListener('click', function(e){
             .then(data =>{
                 // Create table header
                 let table = '<table class="tableFormat table-bordered">'+
-                    '<tr><th class="tableFormat">ID</th><th class="tableFormat">Medication</th><th class="tableFormat">Cost</th></tr>';
+                    '<tr><th class="tableFormat">Medication</th><th class="tableFormat">Price</th>'+
+                    '<th class="tableFormat">Tax</th></tr>';
 
                 // console.log("Data is " + typeof(data));
                 // Fill rows by row
                 Object.values(data).forEach(row => {
                     table += `<tr><td class="tableFormat">${row.Medication}</td>` +
-                        `<td class="tableFormat">${row.Cost}</td></tr>`;
+                        `<td class="tableFormat">${row.Price}</td>` +
+                        `<td class="tableFormat">${row.Tax}</td></tr>`;
                 });
 
                 // Add table closing
@@ -217,6 +220,38 @@ paymentBT.addEventListener('click', function(e){
                         '<tr>'+
                             '<input class="insert"></input>'+
                             '<input class="insert" style="margin-left:5.5%"></input>'+
+                        '</tr>'+
+                    '</table>';
+                document.getElementById("attribute").innerHTML = attributes;
+                document.getElementById("newRow").innerHTML = insertion;
+                document.getElementById("addData").style.visibility = 'visible';
+            });
+});
+patientMedsBT.addEventListener('click', function(e){
+    fetch('/api/patientMedsTable')
+        .then(response => response.json())
+            .then(data =>{
+                // Create table header
+                let table = '<table class="tableFormat table-bordered">'+
+                    '<tr><th class="tableFormat">First Name</th><th class="tableFormat">Last Name</th><th class="tableFormat">Medication</th><tr>';
+
+                Object.values(data).forEach(row =>{
+                    table += `<tr><td class="tableFormat">${row.firstName}</td>` +
+                        `<td class="tableFormat">${row.lastName}</td>`+
+                        `<td class="tableFormat">${row.medication}</td></tr>`;
+                });
+
+                table += '</table>';
+
+                document.getElementById("table").innerHTML = table;
+
+                //Display the insert table and show add button
+                let attributes = '<th style="width:5vw">Patient</th><th style="width:5vw">Medication</th>'
+                let insertion = 
+                    '<table class="insertTable">'+
+                        '<tr>'+
+                            '<select class="insertOption"></select>'+
+                            '<select class="insertOption" style="margin-left:5.5%"></select>'+
                         '</tr>'+
                     '</table>';
                 document.getElementById("attribute").innerHTML = attributes;

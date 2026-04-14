@@ -3,11 +3,10 @@ const pool = require('../models/database');
 exports.getMedicationTable = (req, res) => {
     // SQL command. Names mush match name in index.js
     const sql = `
-        SELECT med.medicationType AS Medication, ROUND(sum(sys.price * 0.01 * sys.tax + sys.price), 2) AS Cost 
+        SELECT med.medicationType AS Medication,  sys.price AS Price, sys.tax AS Tax 
         FROM medication med
         JOIN payment_system sys
-        WHERE med.priceID = sys.paymentID
-        GROUP BY med.medicationType, sys.price, sys.tax;
+        WHERE med.paymentID = sys.paymentID
     `;
 
     // Query server with SQL command

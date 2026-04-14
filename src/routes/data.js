@@ -12,6 +12,7 @@ const assignmentController = require('../controllers/assignmentController');
 
 const medicationController = require('../controllers/medicationController');
 const paymentController = require('../controllers/paymentController');
+const patientMedsController = require('../controllers/patientMedsController');
 
 router.get('/patientTable', patientController.getPatientTable);
 router.get('/familyTable', familyController.getFamilyTable);
@@ -23,5 +24,6 @@ router.get('/assignedTable', assignmentController.getAssignmentTable);
 
 router.get('/medicationTable', medicationController.getMedicationTable);
 router.get('/paymentTable', paymentController.getPaymentTable);
+router.get('/patientMedsTable', patientMedsController.getPatientMedsTable);
 
 module.exports = router;

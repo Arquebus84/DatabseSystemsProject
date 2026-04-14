@@ -1,10 +1,11 @@
-
 -- Host: 127.0.0.1    Database: nursingHomeDB
 -- ------------------------------------------------------
 -- Server version	8.0.44
-drop database nursingHomeDB;
-create database nursingHomeDB;
-use nursingHomeDB;
+
+-- drop database nursingHomeDB;
+-- create database nursingHomeDB;
+-- use nursingHomeDB;
+
 --
 -- Table structure for table `faculty_type`
 --
@@ -32,9 +33,9 @@ DROP TABLE IF EXISTS `medication`;
 CREATE TABLE `medication` (
   `medicationID` INTEGER NOT NULL UNIQUE,
   `medicationType` varchar(20) DEFAULT NULL,
-  `priceID` INTEGER NOT NULL,
+  `paymentID` INTEGER NOT NULL,
   PRIMARY KEY (`medicationID`),
-  CONSTRAINT `medication_idfk_1` FOREIGN KEY (`priceID`) REFERENCES `payment_system` (`paymentID`)
+  CONSTRAINT `medication_idfk_1` FOREIGN KEY (`paymentID`) REFERENCES `payment_system` (`paymentID`)
 );
 
 --
@@ -88,7 +89,6 @@ CREATE TABLE `patient` (
 --
 -- Table structure for table `patient_room`
 --
-
 DROP TABLE IF EXISTS `patient_room`;
 CREATE TABLE `patient_room` (
   `patientRoomID` INTEGER NOT NULL UNIQUE,
@@ -103,9 +103,8 @@ CREATE TABLE `patient_room` (
 --
 DROP TABLE IF EXISTS `patient_med`;
 CREATE TABLE `patient_med` (
-  `medicationID` INTEGER NOT NULL,
-  `medication_price` float NULL,
   `patientID` INTEGER NOT NULL,
+  `medicationID` INTEGER NOT NULL,
   PRIMARY KEY (`medicationID`,`patientID`),
   CONSTRAINT `patient_med_ibfk_1` FOREIGN KEY (`medicationID`) REFERENCES `medication` (`medicationID`),
   CONSTRAINT `patient_med_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`)
@@ -119,10 +118,10 @@ CREATE TABLE `payment_summary` (
   `paymentSumID` INTEGER NOT NULL UNIQUE,
   `netPayment` float DEFAULT NULL,
   `patientID` INTEGER NOT NULL,
-  `patientMedID` INTEGER NOT NULL,
+  `paymentID` INTEGER NOT NULL,
   PRIMARY KEY (`paymentSumID`),
   CONSTRAINT `payment_summary_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`),
-  CONSTRAINT `payment_summary_ibfk_1` FOREIGN KEY (`patientMedID`) REFERENCES `patient_med` (`medicationID`)
+  CONSTRAINT `payment_summary_ibfk_1` FOREIGN KEY (`paymentID`) REFERENCES `payment_system` (`paymentID`)
 );
 
 --
@@ -197,12 +196,12 @@ INSERT INTO patient_room VALUES (1, 2002, 0);
 INSERT INTO assigned_room VALUES (1, 0, 2);
 INSERT INTO assigned_room VALUES (0, 3, 1);
 
-INSERT INTO patient_med VALUES (0, 0, 1);
-INSERT INTO patient_med VALUES (0, 0, 0);
-INSERT INTO patient_med VALUES (1, 0, 0);
+INSERT INTO patient_med VALUES (0, 0);
+INSERT INTO patient_med VALUES (1, 0);
+INSERT INTO patient_med VALUES (1, 1);
 
-INSERT INTO payment_summary VALUES (0, 0, 0, 1);
+INSERT INTO payment_summary VALUES (0, 0, 0, 0);
 INSERT INTO payment_summary VALUES (1, 0, 1, 0);
-INSERT INTO payment_summary VALUES (2, 0, 1, 0);
+INSERT INTO payment_summary VALUES (2, 0, 1, 1);
 
 -- INSERT INTO works_with VALUES ()
