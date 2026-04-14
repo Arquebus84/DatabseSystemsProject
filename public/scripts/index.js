@@ -53,11 +53,11 @@ patientBT.addEventListener('click', function(e){
             let insertion = 
                 '<table class="insertTable">'+
                     '<tr>'+
-                        '<input class="insert"></input>'+
-                        '<input class="insert" style="margin-left:5.5%"></input>'+
-                        '<input class="insert" style="margin-left:10.5%"></input>'+
-                        '<input class="insert" style="margin-left:15.5%"></input>'+
-                        '<select class="insertOption" style="margin-left:21%"></select>'+
+                        '<input class="insert" id="firstName"></input>'+
+                        '<input class="insert" id="lastName" style="margin-left:5.5%"></input>'+
+                        '<input class="insert" id="priority" style="margin-left:10.5%"></input>'+
+                        '<input class="insert" id="condition" style="margin-left:15.5%"></input>'+
+                        '<select class="insertOption" id="family" style="margin-left:21%"></select>'+
                     '</tr>'+
                 '</table>';
             document.getElementById("attribute").innerHTML = attributes;

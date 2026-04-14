@@ -14,3 +14,7 @@ exports.getFacultyTable = (req, res) => {
         res.json(results);
     });
 };
+
+// exports.setFacultyTable = (req, res) =>{
+//     const lName
+// };
