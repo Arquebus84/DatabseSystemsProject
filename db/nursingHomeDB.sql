@@ -2,16 +2,16 @@
 -- ------------------------------------------------------
 -- Server version	8.0.44
 
--- drop database nursingHomeDB;
--- create database nursingHomeDB;
--- use nursingHomeDB;
+drop database nursingHomeDB;
+create database nursingHomeDB;
+use nursingHomeDB;
 
 --
 -- Table structure for table `faculty_type`
 --
 DROP TABLE IF EXISTS `faculty_type`;
 CREATE TABLE `faculty_type` (
-  `facultyTypeID` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+  `facultyTypeID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
   `facultyType` varchar(12) DEFAULT NULL
 );
 
@@ -20,7 +20,7 @@ CREATE TABLE `faculty_type` (
 --
 DROP TABLE IF EXISTS `payment_system`;
 CREATE TABLE `payment_system` (
-  `paymentID` INTEGER NOT NULL UNIQUE,
+  `paymentID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `price` float DEFAULT NULL,
   `tax` float DEFAULT NULL,
   PRIMARY KEY (`paymentID`)
@@ -31,7 +31,7 @@ CREATE TABLE `payment_system` (
 --
 DROP TABLE IF EXISTS `medication`;
 CREATE TABLE `medication` (
-  `medicationID` INTEGER NOT NULL UNIQUE,
+  `medicationID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `medicationType` varchar(20) DEFAULT NULL,
   `paymentID` INTEGER NOT NULL,
   PRIMARY KEY (`medicationID`),
@@ -43,8 +43,8 @@ CREATE TABLE `medication` (
 --
 DROP TABLE IF EXISTS `phone_number`;
 CREATE TABLE `phone_number` (
-  `numberID` INTEGER NOT NULL UNIQUE,
-  `phone_number` varchar(12) DEFAULT NULL,
+  `numberID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
+  `phoneNumber` varchar(12) DEFAULT NULL,
   PRIMARY KEY (`numberID`)
 );
 
@@ -53,7 +53,7 @@ CREATE TABLE `phone_number` (
 --
 DROP TABLE IF EXISTS `faculty`;
 CREATE TABLE `faculty` (
-  `facultyID` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+  `facultyID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
   `facultyLastName` varchar(20) DEFAULT NULL,
   `facultyTypeID` INTEGER NOT NULL,
   CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`facultyTypeID`) REFERENCES `faculty_type` (`facultyTypeID`)
@@ -64,11 +64,11 @@ CREATE TABLE `faculty` (
 --
 DROP TABLE IF EXISTS `trusted_family`;
 CREATE TABLE `trusted_family` (
-  `familyID` INTEGER NOT NULL UNIQUE,
-  `lastName` varchar(20) DEFAULT NULL,
-  `phone_numberID` INTEGER NOT NULL,
+  `familyID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
+  `familyLastName` varchar(20) DEFAULT NULL,
+  `phoneNumberID` INTEGER NOT NULL,
   PRIMARY KEY (`familyID`),
-  CONSTRAINT `trusted_family_ibfk_1` FOREIGN KEY (`phone_numberID`) REFERENCES `phone_number` (`numberID`)
+  CONSTRAINT `trusted_family_ibfk_1` FOREIGN KEY (`phoneNumberID`) REFERENCES `phone_number` (`numberID`)
 );
 
 --
@@ -76,7 +76,7 @@ CREATE TABLE `trusted_family` (
 --
 DROP TABLE IF EXISTS `patient`;
 CREATE TABLE `patient` (
-  `patientID` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+  `patientID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
   `firstName` varchar(20) DEFAULT NULL,
   `lastName` varchar(20) DEFAULT NULL,
   `patientPriority` INTEGER DEFAULT NULL,
@@ -91,10 +91,10 @@ CREATE TABLE `patient` (
 --
 DROP TABLE IF EXISTS `patient_room`;
 CREATE TABLE `patient_room` (
-  `patientRoomID` INTEGER NOT NULL UNIQUE,
+  `patientRoomID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `patientRoomNumber` varchar(4) NOT NULL,
   `patientID` INTEGER NOT NULL,
-  PRIMARY KEY (`patientroomID`,`patientID`),
+  PRIMARY KEY (`patientRoomID`,`patientID`),
   CONSTRAINT `patient_room_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`)
 );
 
@@ -115,7 +115,7 @@ CREATE TABLE `patient_med` (
 --
 DROP TABLE IF EXISTS `payment_summary`;
 CREATE TABLE `payment_summary` (
-  `paymentSumID` INTEGER NOT NULL UNIQUE,
+  `paymentSumID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `netPayment` float DEFAULT NULL,
   `patientID` INTEGER NOT NULL,
   `paymentID` INTEGER NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE `payment_summary` (
 --
 DROP TABLE IF EXISTS `assigned_room`;
 CREATE TABLE `assigned_room` (
-  `patientRoomID` INTEGER NOT NULL UNIQUE,
+  `patientRoomID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `facultyID` INTEGER NOT NULL,
   `floorNumber` INTEGER NOT NULL,
   PRIMARY KEY (`patientRoomID`,`facultyID`),
@@ -163,45 +163,46 @@ CREATE TABLE `works_with` (
 -- INSERT INTO `user` (username, password) VALUES ('admin', 'password');
 
 
-INSERT INTO faculty_type VALUES (0, 'Doctor');
-INSERT INTO faculty_type VALUES (1, 'Nurse');
+-- The Auto_Increment indices start at 1...retarded, I know
+INSERT INTO faculty_type (facultyType) VALUES ('Doctor');
+INSERT INTO faculty_type (facultyType) VALUES ('Nurse');
 
-INSERT INTO payment_system VALUES (0, 8.51, 2.7);
-INSERT INTO payment_system VALUES (1, 10.50, 1.0);
-INSERT INTO payment_system VALUES (2, 4.26, 3.8);
-INSERT INTO payment_system VALUES (3, 18.75, 4.2);
+INSERT INTO payment_system (price, tax) VALUES (8.51, 2.7);
+INSERT INTO payment_system (price, tax) VALUES (10.50, 1.0);
+INSERT INTO payment_system (price, tax) VALUES (4.26, 3.8);
+INSERT INTO payment_system (price, tax) VALUES (18.75, 4.2);
 
-INSERT INTO medication VALUES (0, "Advil", 0);
-INSERT INTO medication VALUES (1, "Metformin", 1);
+INSERT INTO medication (medicationType, paymentID) VALUES ("Advil", 1);
+INSERT INTO medication (medicationType, paymentID) VALUES ("Metformin", 2);
 
-INSERT INTO faculty VALUES (0, 'Ventura', 0);
-INSERT INTO faculty VALUES (1, 'Roe', 1);
-INSERT INTO faculty VALUES (2, 'Oropesa', 1);
-INSERT INTO faculty VALUES (3, 'Snyder', 1);
+INSERT INTO faculty (facultyLastName, facultyTypeID) VALUES ('Ventura', 1);
+INSERT INTO faculty (facultyLastName, facultyTypeID) VALUES ('Roe', 2);
+INSERT INTO faculty (facultyLastName, facultyTypeID) VALUES ('Oropesa', 2);
+INSERT INTO faculty (facultyLastName, facultyTypeID) VALUES ('Snyder', 2);
 
-INSERT INTO phone_number values (0, "912-222-2500");
-INSERT INTO phone_number values (1, "777-234-9090");
-INSERT INTO phone_number values (2, "912-232-6605");
+INSERT INTO phone_number (phoneNumber) values ("912-222-2500");
+INSERT INTO phone_number (phoneNumber) values ("777-234-9090");
+INSERT INTO phone_number (phoneNumber) values ("912-232-6605");
 
-INSERT INTO trusted_family VALUES (0, "Bowers", 0);
-INSERT INTO trusted_family VALUES (1, "Clints", 2);
-INSERT INTO trusted_family VALUES (2, "Stewart", 1);
+INSERT INTO trusted_family (familyLastName, phoneNumberID) VALUES ("Bowers", 1);
+INSERT INTO trusted_family (familyLastName, phoneNumberID) VALUES ("Clints", 3);
+INSERT INTO trusted_family (familyLastName, phoneNumberID) VALUES ("Stewart", 2);
 
-INSERT INTO patient VALUES (0, "Todd", "Howard", 5, "Headache", 2);
-INSERT INTO patient VALUES (1, "Will", "Bowers", 3, "Dimentia", 0);
+INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Todd", "Howard", 5, "Headache", 3);
+INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Will", "Bowers", 3, "Dimentia", 1);
 
-INSERT INTO patient_room VALUES (0, 1132, 1);
-INSERT INTO patient_room VALUES (1, 2002, 0);
+INSERT INTO patient_room (patientRoomNumber, patientID) VALUES (1132, 2);
+INSERT INTO patient_room (patientRoomNumber, patientID) VALUES (2002, 1);
 
-INSERT INTO assigned_room VALUES (1, 0, 2);
-INSERT INTO assigned_room VALUES (0, 3, 1);
+INSERT INTO assigned_room (patientRoomID, facultyID, floorNumber) VALUES (2, 1, 2);
+INSERT INTO assigned_room (patientRoomID, facultyID, floorNumber) VALUES (1, 4, 1);
 
-INSERT INTO patient_med VALUES (0, 0);
-INSERT INTO patient_med VALUES (1, 0);
-INSERT INTO patient_med VALUES (1, 1);
+INSERT INTO patient_med (patientID, medicationID) VALUES (1, 1);
+INSERT INTO patient_med (patientID, medicationID) VALUES (2, 1);
+INSERT INTO patient_med (patientID, medicationID) VALUES (2, 2);
 
-INSERT INTO payment_summary VALUES (0, 0, 0, 0);
-INSERT INTO payment_summary VALUES (1, 0, 1, 0);
-INSERT INTO payment_summary VALUES (2, 0, 1, 1);
+INSERT INTO payment_summary (netPayment, patientID, paymentID) VALUES (0, 1, 1);
+INSERT INTO payment_summary (netPayment, patientID, paymentID) VALUES (0, 2, 1);
+INSERT INTO payment_summary (netPayment, patientID, paymentID) VALUES (0, 2, 2);
 
 -- INSERT INTO works_with VALUES ()
