@@ -17,6 +17,8 @@ const patientMedsController = require('../controllers/patientMedsController');
 router.get('/getPatientTable', patientController.getPatientTable);
 router.post('/setPatientTable', patientController.setPatientTable);
 router.get('/getFamilyTable', familyController.getFamilyTable);
+router.post('/setFamilyTable', familyController.setFamilyTable);
+
 router.get('/getRoomTable', roomController.getRoomTable);
 router.get('/getPaySumTable', paySumController.getPaySumTable);
 
