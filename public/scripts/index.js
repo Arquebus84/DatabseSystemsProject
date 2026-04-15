@@ -435,8 +435,8 @@ function addFaculty() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ // Fill out JSON request for controller
-            patientID: patient,
-            medicationID: medication
+            facultyLastName: lastName,
+            facultyTypeID: facultyType
         }),
     })
         .then(response => response.json())
