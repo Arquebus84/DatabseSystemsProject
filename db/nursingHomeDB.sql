@@ -2,9 +2,9 @@
 -- ------------------------------------------------------
 -- Server version	8.0.44
 
-drop database nursingHomeDB;
-create database nursingHomeDB;
-use nursingHomeDB;
+-- drop database nursingHomeDB;
+-- create database nursingHomeDB;
+-- use nursingHomeDB;
 
 --
 -- Table structure for table `faculty_type`
@@ -93,13 +93,13 @@ DROP TABLE IF EXISTS `patient_room`;
 CREATE TABLE `patient_room` (
   `patientRoomID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `patientRoomNumber` varchar(4) NOT NULL,
-  `patientID` INTEGER NOT NULL,
+  `patientID` INTEGER NOT NULL UNIQUE,
   PRIMARY KEY (`patientRoomID`,`patientID`),
   CONSTRAINT `patient_room_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`)
 );
 
 --
--- Table structure for table `cost`
+-- Table structure for table `patient_med`
 --
 DROP TABLE IF EXISTS `patient_med`;
 CREATE TABLE `patient_med` (
@@ -151,9 +151,7 @@ CREATE TABLE `works_with` (
   CONSTRAINT `works_with_ibfk_3` FOREIGN KEY (`paymentSumID`) REFERENCES `payment_summary` (`paymentSumID`)
 );
 
---
 -- DB system users
---
 -- CREATE TABLE `user` (
 --   `id` INT NOT NULL AUTO_INCREMENT,
 --   `username` VARCHAR(50) NOT NULL,
@@ -163,46 +161,70 @@ CREATE TABLE `works_with` (
 -- INSERT INTO `user` (username, password) VALUES ('admin', 'password');
 
 
+
+-- NOTE:
 -- The Auto_Increment indices start at 1...retarded, I know
+-- Any attribute listed in parenthesis that contains "ID" in its name should be a selection box in the home.ejs
+
+-- Inserting into faculty_type is for the staff included in a nursing home, so only one insert option should be available
 INSERT INTO faculty_type (facultyType) VALUES ('Doctor');
 INSERT INTO faculty_type (facultyType) VALUES ('Nurse');
 
+-- Two insertions: price and tax, index will be auto
 INSERT INTO payment_system (price, tax) VALUES (8.51, 2.7);
 INSERT INTO payment_system (price, tax) VALUES (10.50, 1.0);
 INSERT INTO payment_system (price, tax) VALUES (4.26, 3.8);
 INSERT INTO payment_system (price, tax) VALUES (18.75, 4.2);
 
+-- Only a new medication should be written, a selection box should be used for the paymentID
+--    Many medications can have similar prices
 INSERT INTO medication (medicationType, paymentID) VALUES ("Advil", 1);
 INSERT INTO medication (medicationType, paymentID) VALUES ("Metformin", 2);
 
-INSERT INTO faculty (facultyLastName, facultyTypeID) VALUES ('Ventura', 1);
+-- The employees should only insert the last names... I honestly do not know if the staff a real nursing home know each other's first name
+--  It's us... and definitely not because I'm uncreative
 INSERT INTO faculty (facultyLastName, facultyTypeID) VALUES ('Roe', 2);
 INSERT INTO faculty (facultyLastName, facultyTypeID) VALUES ('Oropesa', 2);
 INSERT INTO faculty (facultyLastName, facultyTypeID) VALUES ('Snyder', 2);
+INSERT INTO faculty (facultyLastName, facultyTypeID) VALUES ('Ventura', 1);
 
+-- What do the numbers mean, Mason?
 INSERT INTO phone_number (phoneNumber) values ("912-222-2500");
 INSERT INTO phone_number (phoneNumber) values ("777-234-9090");
 INSERT INTO phone_number (phoneNumber) values ("912-232-6605");
+INSERT INTO phone_number (phoneNumber) values ("658-120-0420");
 
+-- Some families will be related to patients with different names
 INSERT INTO trusted_family (familyLastName, phoneNumberID) VALUES ("Bowers", 1);
 INSERT INTO trusted_family (familyLastName, phoneNumberID) VALUES ("Clints", 3);
 INSERT INTO trusted_family (familyLastName, phoneNumberID) VALUES ("Stewart", 2);
+INSERT INTO trusted_family (familyLastName, phoneNumberID) VALUES ("Howard", 4);
 
+-- Just fucking kill me
 INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Todd", "Howard", 5, "Headache", 3);
 INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Will", "Bowers", 3, "Dimentia", 1);
 
+-- PatientRoom to Patient is 1:1
 INSERT INTO patient_room (patientRoomNumber, patientID) VALUES (1132, 2);
 INSERT INTO patient_room (patientRoomNumber, patientID) VALUES (2002, 1);
 
+-- Faculty can be assigned to multiple patient rooms (ergo many patients) which will be a M:N
 INSERT INTO assigned_room (patientRoomID, facultyID, floorNumber) VALUES (2, 1, 2);
 INSERT INTO assigned_room (patientRoomID, facultyID, floorNumber) VALUES (1, 4, 1);
 
+-- This looks awful: it can lead to some repetition, therefore, the query had to be very specific
 INSERT INTO patient_med (patientID, medicationID) VALUES (1, 1);
 INSERT INTO patient_med (patientID, medicationID) VALUES (2, 1);
 INSERT INTO patient_med (patientID, medicationID) VALUES (2, 2);
 
+-- Give me all your money
 INSERT INTO payment_summary (netPayment, patientID, paymentID) VALUES (0, 1, 1);
 INSERT INTO payment_summary (netPayment, patientID, paymentID) VALUES (0, 2, 1);
 INSERT INTO payment_summary (netPayment, patientID, paymentID) VALUES (0, 2, 2);
 
--- INSERT INTO works_with VALUES ()
+-- For ease, the faculty should be able to reach a trusted family of the patient
+-- Although, I believe that this is worthless because you can already reach the family via the patients table
+-- Unless the faculty likes the family, but hates the patient, then sure...we can include it
+INSERT INTO works_with VALUES (familyID, facultyID, paymentSumID) VALUES (2, 1, 2);
+INSERT INTO works_with VALUES (familyID, facultyID, paymentSumID) VALUES (2, 2, 2);
+INSERT INTO works_with VALUES (familyID, facultyID, paymentSumID) VALUES (1, 3, 1);
