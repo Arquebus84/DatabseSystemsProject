@@ -145,7 +145,7 @@ CREATE TABLE `works_with` (
   `familyID` INTEGER NOT NULL,
   `facultyID` INTEGER NOT NULL,
   `paymentSumID` INTEGER NOT NULL,
-  PRIMARY KEY (`facultyID`,`familyID`),
+  PRIMARY KEY (`facultyID`, `familyID`),
   CONSTRAINT `works_with_ibfk_1` FOREIGN KEY (`familyID`) REFERENCES `trusted_family` (`familyID`),
   CONSTRAINT `works_with_ibfk_2` FOREIGN KEY (`facultyID`) REFERENCES `faculty` (`facultyID`),
   CONSTRAINT `works_with_ibfk_3` FOREIGN KEY (`paymentSumID`) REFERENCES `payment_summary` (`paymentSumID`)
@@ -201,7 +201,8 @@ INSERT INTO trusted_family (familyLastName, phoneNumberID) VALUES ("Stewart", 2)
 INSERT INTO trusted_family (familyLastName, phoneNumberID) VALUES ("Howard", 4);
 
 -- Just fucking kill me
-INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Todd", "Howard", 5, "Headache", 3);
+INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Ronald", "Grace", 5, "Hernia", 2);
+INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Todd", "Howard", 5, "Migraine", 3);
 INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Will", "Bowers", 3, "Dimentia", 1);
 
 -- PatientRoom to Patient is 1:1
@@ -224,7 +225,7 @@ INSERT INTO payment_summary (netPayment, patientID, paymentID) VALUES (0, 2, 2);
 
 -- For ease, the faculty should be able to reach a trusted family of the patient
 -- Although, I believe that this is worthless because you can already reach the family via the patients table
--- Unless the faculty likes the family, but hates the patient, then sure...we can include it
-INSERT INTO works_with VALUES (familyID, facultyID, paymentSumID) VALUES (2, 1, 2);
-INSERT INTO works_with VALUES (familyID, facultyID, paymentSumID) VALUES (2, 2, 2);
-INSERT INTO works_with VALUES (familyID, facultyID, paymentSumID) VALUES (1, 3, 1);
+-- Unless the faculty likes the family, but hates the patient, then sure...we can include it  
+INSERT INTO works_with (familyID, facultyID, paymentSumID) VALUES (2, 1, 2);
+INSERT INTO works_with (familyID, facultyID, paymentSumID) VALUES (2, 2, 2);
+INSERT INTO works_with (familyID, facultyID, paymentSumID) VALUES (1, 3, 1);
