@@ -204,6 +204,7 @@ INSERT INTO trusted_family (familyLastName, phoneNumberID) VALUES ("Howard", 4);
 INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Ronald", "Grace", 5, "Hernia", 2);
 INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Todd", "Howard", 5, "Migraine", 3);
 INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Will", "Bowers", 3, "Dimentia", 1);
+INSERT INTO patient (firstName, lastName, patientPriority, conditionDesc, familyID) VALUES ("Bill", "Shatner", 1, "Dimentia", 4);
 
 -- PatientRoom to Patient is 1:1
 INSERT INTO patient_room (patientRoomNumber, patientID) VALUES (1132, 2);
