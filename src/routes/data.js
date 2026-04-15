@@ -21,10 +21,17 @@ router.get('/getRoomTable', roomController.getRoomTable);
 router.get('/getPaySumTable', paySumController.getPaySumTable);
 
 router.get('/getFacultyTable', facultyController.getFacultyTable);
+router.get('/getFacultyTypes', facultyController.getFacultyTypes);
+router.post('/setFacultyTable', facultyController.setFacultyTable);
+
 router.get('/getAssignedTable', assignmentController.getAssignmentTable);
 
 router.get('/getMedicationTable', medicationController.getMedicationTable);
+router.get('/getMeds', medicationController.getMeds);
+
 router.get('/getPaymentTable', paymentController.getPaymentTable);
+
 router.get('/getPatientMedsTable', patientMedsController.getPatientMedsTable);
+router.post('/setPatientMedsTable', patientMedsController.setPatientMedsTable);
 
 module.exports = router;

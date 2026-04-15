@@ -14,3 +14,15 @@ exports.getPatientMedsTable = (req, res) =>{
         res.json(results);
     });
 }
+
+exports.setPatientMedsTable = (req, res) =>{
+    const { patientID, medicationID } = req.body;
+
+    // Run the insert
+    const insertSql = `INSERT INTO patient_med (patientID, medicationID) VALUES (?, ?)`;
+
+    pool.query(insertSql, [patientID, medicationID], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "Saved successfully"});
+    });
+};

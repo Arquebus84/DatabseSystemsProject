@@ -19,23 +19,11 @@ exports.getPatientTable = (req, res) => {
 exports.setPatientTable = (req, res) =>{
     const { firstName, lastName, patientPriority, conditionDesc, familyID } = req.body;
 
-    // Find the current highest ID
-    const findMaxSql = "SELECT MAX(patientID) AS maxID FROM patient";
+    // Run the insert
+    const insertSql = `INSERT INTO patient (firstName, lastName, patientPriority, conditiondesc, familyID) VALUES (?, ?, ?, ?, ?)`;
 
-    pool.query(findMaxSql, (err, results) => {
+    pool.query(insertSql, [firstName, lastName, patientPriority, conditionDesc, familyID], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-
-        // Calculate the new ID (if table is empty, start at 1)
-        const newID = (results[0].maxID || 0) + 1;
-
-        // Run the insert
-        const insertSql = `INSERT INTO patient 
-            (patientID, firstName, lastName, patientPriority, conditiondesc, familyID) 
-            VALUES (?, ?, ?, ?, ?, ?)`;
-
-        pool.query(insertSql, [newID, firstName, lastName, patientPriority, conditionDesc, familyID], (err, result) => {
-            if (err) return res.status(500).json({ error: err.message });
-            res.json({ message: "Saved successfully", patientID: newID });
-        });
+        res.json({ message: "Saved successfully"});
     });
 };

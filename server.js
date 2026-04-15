@@ -5,6 +5,9 @@ var app = express();
 var dataRoutes = require('./src/routes/data');
 // const db = require('./src/models/database');
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('views', path.join(__dirname, 'src', 'views'));
