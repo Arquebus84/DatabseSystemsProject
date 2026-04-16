@@ -18,7 +18,6 @@ let currentTable = "";
 patientBT.addEventListener('click', function(e){
     updatePatientTable();
 });
-
 // Draws the patient table
 function updatePatientTable() {
     // Fetch result from patient controller
@@ -81,7 +80,6 @@ function updatePatientTable() {
 familyBT.addEventListener('click', function(e){
     updateFamilyTable();
 });
-
 // Draws the family table
 function updateFamilyTable() {
     // Fetch result from family controller
@@ -126,7 +124,6 @@ function updateFamilyTable() {
 roomBT.addEventListener('click', function(e){
     updateRoomTable();
 });
-
 // Draws the room table
 function updateRoomTable() {
     fetch('/api/getRoomTable')
@@ -172,7 +169,6 @@ function updateRoomTable() {
                 });
         });
 }
-
 /* Pay Sum */
 paySumBT.addEventListener('click', function(e){
     fetch('/api/getPaySumTable')
@@ -203,7 +199,6 @@ paySumBT.addEventListener('click', function(e){
 facultyBT.addEventListener('click', function(e){
     updateFacultyTable();
 });
-
 // Draws the faculty table
 function updateFacultyTable(){
     // Fetch result from faculty controller
@@ -261,7 +256,6 @@ function updateFacultyTable(){
 assignBT.addEventListener('click', function(e){
     updateAssignmentTable();
 })
-
 // Draws the assignment table
 function updateAssignmentTable(){
     fetch('/api/getAssignmentTable')
@@ -269,24 +263,23 @@ function updateAssignmentTable(){
         .then(data =>{
             // Create table header
             let table = '<table class="tableFormat table-bordered">' +
-                '<tr><th>Room Num</th><th>Patient Name</th><th>Faculty Assigned</th></tr>';
+                '<tr><th>Assigned Faculty</th><th>Patient Name</th><th>Room Number</th><th>Floor Number</th></tr>';
 
             Object.values(data).forEach(row =>{
-                table += `<tr><td class="tableFormat">${row.roomNum}</td>` +
+                table += `<tr><td class="tableFormat">${row.facultyName}</td>`+
                     `<td class="tableFormat">${row.firstName} ${row.lastName}</td>`+
-                    `<td class="tableFormat">${row.facultyName}</td></tr>`;
+                    `<td class="tableFormat">${row.roomNum}</td>` +
+                    `<td class="tableFormat">${row.FloorNumber}</td></tr>`;
             });
 
             table += '</table>';
 
             document.getElementById("table").innerHTML = table;
 
-
-            /*
             //Display the insert table and show add button
             let insertion =
                 '<table class="insertTable">'+
-                '<tr><th>Patient</th><th>Medication</th></tr>' +
+                '<tr><th>Patient</th><th>Faculty</th></tr>' +
                 '<tr><td><select name="patients" class="insertOption" id="assignmentPatients">';
 
             // Get patients and fill the patient drop down
@@ -321,8 +314,6 @@ function updateAssignmentTable(){
                             currentTable = "assignment";
                         })
                 })
-
-             */
         });
 }
 
@@ -608,7 +599,7 @@ function addAssignment() {
     let facultyID = document.getElementById("assignmentFaculty").value;
 
     // add family
-    fetch('/api/setRoomTable', {
+    fetch('/api/setAssignmentTable', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
