@@ -16,24 +16,30 @@ const patientMedsController = require('../controllers/patientMedsController');
 
 router.get('/getPatientTable', patientController.getPatientTable);
 router.post('/setPatientTable', patientController.setPatientTable);
+
 router.get('/getFamilyTable', familyController.getFamilyTable);
+router.post('/setFamilyTable', familyController.setFamilyTable);
 router.get('/getFamilies', familyController.getFamilies);
+
 router.get('/getRoomTable', roomController.getRoomTable);
+router.post('/setRoomTable', roomController.setRoomTable);
+
 router.get('/getPaySumTable', paySumController.getPaySumTable);
 
 router.get('/getFacultyTable', facultyController.getFacultyTable);
 router.get('/getFacultyTypes', facultyController.getFacultyTypes);
 router.post('/setFacultyTable', facultyController.setFacultyTable);
 
-router.get('/getAssignedTable', assignmentController.getAssignmentTable);
+router.get('/getAssignmentTable', assignmentController.getAssignmentTable);
+router.post('/setAssignmentTable', assignmentController.setAssignmentTable);
 
 router.get('/getMedicationTable', medicationController.getMedicationTable);
 router.post('/setMedicationTable', medicationController.setMedicationTable);
 router.get('/getMeds', medicationController.getMeds);
 
-router.get('/getPaymentTable', paymentController.getPaymentTable);
 
 router.get('/getPatientMedsTable', patientMedsController.getPatientMedsTable);
 router.post('/setPatientMedsTable', patientMedsController.setPatientMedsTable);
+
 
 module.exports = router;

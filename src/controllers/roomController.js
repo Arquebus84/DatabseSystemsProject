@@ -14,3 +14,15 @@ exports.getRoomTable = (req, res) => {
         res.json(results);
     });
 };
+
+exports.setRoomTable = (req, res) =>{
+    const { roomNum, patientID } = req.body;
+
+    // Run the insert
+    const insertSql = `INSERT INTO patient_room (patientRoomNumber, patientID) VALUES (?, ?)`;
+
+    pool.query(insertSql, [roomNum, patientID], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "Saved successfully"});
+    });
+};

@@ -8,7 +8,6 @@ const facultyBT = document.getElementById('facultyBT');
 const assignBT = document.getElementById('assignBT');
 
 const medicationBT = document.getElementById('medicationBT');
-const paymentBT = document.getElementById("paymentBT");
 const patientMedsBT = document.getElementById("patientMedsBT");
 
 const addBT = document.getElementById('addData');
@@ -80,14 +79,56 @@ function updatePatientTable() {
 
 /* Family */
 familyBT.addEventListener('click', function(e){
-    // document.getElementById("tableView").innerText = "Family Table";//tableValues.getFacultyTable();
-    document.getElementById("addData").style.visibility = 'visible';
-
-    currentTable = "family";
+    updateFamilyTable();
 });
+
+// Draws the family table
+function updateFamilyTable() {
+    // Fetch result from family controller
+    fetch('/api/getFamilyTable')
+        .then(response => response.json())
+        .then(data => {
+
+            // Create table header
+            let table = '<table class="tableFormat table-bordered">'+
+                '<tr><th class="tableFormat">Family Name</th><th class="tableFormat">Phone Number</th></tr>';
+
+            // console.log("Data is " + typeof(data));
+            // Fill rows by row
+            Object.values(data).forEach(row => {
+                table +=
+                    `<tr><td class="tableFormat">${row.familyName}</td>` +
+                    `<td class="tableFormat">${row.phoneNumber}</td></tr>`
+            });
+
+            // Add table closing
+            table += '</table>';
+
+            // Insert table into html
+            document.getElementById("table").innerHTML = table;
+
+            //Display the insert table and show add button
+            let insertion =
+                '<table class="insertTable">'+
+                '<tr><th>Family Name</th><th>Phone Number</th></tr>' +
+                '<tr>'+
+                '<td><input class="insert" id="familyName"></input></td>'+
+                '<td><input class="insert" id="phoneNumber"></input></td>';
+
+            document.getElementById("insertContainer").innerHTML = insertion;
+            document.getElementById("addData").style.visibility = 'visible';
+
+            currentTable = "family";
+        });
+}
 
 /* Room */
 roomBT.addEventListener('click', function(e){
+    updateRoomTable();
+});
+
+// Draws the room table
+function updateRoomTable() {
     fetch('/api/getRoomTable')
         .then(response => response.json())
         .then(data => {
@@ -106,10 +147,31 @@ roomBT.addEventListener('click', function(e){
             document.getElementById("table").innerHTML = table;
 
             //Display the insert table and show add button
-            document.getElementById("addData").style.visibility = 'visible';
-            currentTable = "room";
+            let insertion =
+                '<table class="insertTable">'+
+                '<tr><th>Room</th><th>Name</th></tr>' +
+                '<tr>'+
+                '<td><input class="insert" id="roomNum"></input></td>'+
+                '<td><select class="insertOption" id="patientID">'+
+
+            fetch('/api/getPatientTable')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(row => {
+                        insertion = insertion + `<option value="${row.ID}">${row.firstName} ${row.lastName}</option>`;
+                    })
+                    insertion = insertion +
+                        '</select></td>' +
+                        '</tr>' +
+                        '</table>';
+
+                    document.getElementById("insertContainer").innerHTML = insertion;
+                    document.getElementById("addData").style.visibility = 'visible';
+
+                    currentTable = "room";
+                });
         });
-});
+}
 
 /* Pay Sum */
 paySumBT.addEventListener('click', function(e){
@@ -195,11 +257,81 @@ function updateFacultyTable(){
         })
 }
 
+/* Facult assignment */
+assignBT.addEventListener('click', function(e){
+    updateAssignmentTable();
+})
+
+// Draws the assignment table
+function updateAssignmentTable(){
+    fetch('/api/getAssignmentTable')
+        .then(response => response.json())
+        .then(data =>{
+            // Create table header
+            let table = '<table class="tableFormat table-bordered">' +
+                '<tr><th>Room Num</th><th>Patient Name</th><th>Faculty Assigned</th></tr>';
+
+            Object.values(data).forEach(row =>{
+                table += `<tr><td class="tableFormat">${row.roomNum}</td>` +
+                    `<td class="tableFormat">${row.firstName} ${row.lastName}</td>`+
+                    `<td class="tableFormat">${row.facultyName}</td></tr>`;
+            });
+
+            table += '</table>';
+
+            document.getElementById("table").innerHTML = table;
+
+
+            /*
+            //Display the insert table and show add button
+            let insertion =
+                '<table class="insertTable">'+
+                '<tr><th>Patient</th><th>Medication</th></tr>' +
+                '<tr><td><select name="patients" class="insertOption" id="assignmentPatients">';
+
+            // Get patients and fill the patient drop down
+            fetch('/api/getPatientTable')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(row => {
+                        insertion = insertion + `<option value="${row.ID}">${row.firstName} ${row.lastName}</option>`;
+                    })
+                    insertion = insertion +
+                        '</select>'+
+                        '</td>' +
+                        '<td>' +
+                        '<select name="faculty" class="insertOption" id="assignmentFaculty">';
+
+                    // Get medications and fill medication drop down
+                    fetch('/api/getFacultyTable')
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(row => {
+                                insertion = insertion + `<option value="${row.facultyID}">${row.facultyLastName}</option>`;
+                            })
+                            insertion = insertion +
+                                '</select>' +
+                                '</td>' +
+                                '</tr>' +
+                                '</table>';
+
+                            document.getElementById("insertContainer").innerHTML = insertion;
+                            document.getElementById("addData").style.visibility = 'visible';
+
+                            currentTable = "assignment";
+                        })
+                })
+
+             */
+        });
+}
+
 /* Medications */
 medicationBT.addEventListener('click', function(e){
     updateMedicationTable();
 });
 
+// Draws the medication table
 function updateMedicationTable() {
     fetch('/api/getMedicationTable')
         .then(response => response.json())
@@ -267,13 +399,13 @@ function updatePatientMedsTable() {
             document.getElementById("table").innerHTML = table;
 
             //Display the insert table and show add button
-            let attributes = '<th style="width:5vw">Patient</th><th style="width:5vw">Medication</th>'
+            let attributes = '<th>Patient</th><th>Medication</th>'
 
             let insertion =
                 '<table class="insertTable">'+
-                '<tr>'+
+                '<tr><th>Patient</th><th>Medication</th></tr><tr>'+
                 '<td>' +
-                '<select name="patients" class="insertOption" id="patientMedPatients" style="margin-left:5.5% width:100%">';
+                '<select name="patients" class="insertOption" id="patientMedPatients">';
 
             // Get patients and fill the patient drop down
             fetch('/api/getPatientTable')
@@ -286,7 +418,7 @@ function updatePatientMedsTable() {
                         '</select>'+
                         '</td>' +
                         '<td>' +
-                        '<select name="medication" class="insertOption" id="patientMedMeds" style="margin-left:5.5%">';
+                        '<select name="medication" class="insertOption" id="patientMedMeds">';
 
                     // Get medications and fill medication drop down
                     fetch('/api/getMeds')
@@ -320,6 +452,12 @@ addBT.addEventListener('click', function(e){
         addPatientMeds();
     } else if (currentTable === "medication") {
         addMedication();
+    } else if (currentTable === "family") {
+        addFamily();
+    } else if (currentTable === "room") {
+        addRoom();
+    } else if (currentTable === "assignment") {
+        addAssignment();
     }
 });
 
@@ -378,7 +516,7 @@ function addPatientMeds() {
     let patientID = document.getElementById("patientMedPatients").value;
     let medicationID = document.getElementById("patientMedMeds").value;
 
-    // add faculty
+    // add patient/med
     fetch('/api/setPatientMedsTable', {
         method: 'POST',
         headers: {
@@ -402,7 +540,7 @@ function addMedication() {
     let price = document.getElementById("medicationPrice").value;
     let tax = document.getElementById("medicationTax").value;
 
-    // add faculty
+    // add medication
     fetch('/api/setMedicationTable', {
         method: 'POST',
         headers: {
@@ -417,7 +555,74 @@ function addMedication() {
         .then(response => response.json())
         .then(data => {
             console.log("Success:", data.message);
-            updateMedicationTable(); // Update the faculty table
+            updateMedicationTable(); // Update the med table
+        })
+        .catch((error) => console.error('Error:', error));
+}
+function addFamily() {
+    let familyName = document.getElementById("familyName").value;
+    let phoneNumber = document.getElementById("phoneNumber").value;
+
+    // add family
+    fetch('/api/setFamilyTable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ // Fill out JSON request for controller
+            familyName: familyName,
+            phoneNumber: phoneNumber,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success:", data.message);
+            updateFamilyTable(); // Update the family table
+        })
+        .catch((error) => console.error('Error:', error));
+}
+function addRoom() {
+    let roomNum = document.getElementById("roomNum").value;
+    let patientID = document.getElementById("patientID").value;
+
+    // add family
+    fetch('/api/setRoomTable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ // Fill out JSON request for controller
+            roomNum: roomNum,
+            patientID: patientID,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("", data.message);
+            updateRoomTable(); // Update the room table
+        })
+        .catch((error) => console.error('Error:', error));
+}
+function addAssignment() {
+    let patientID = document.getElementById("assignmentPatients").value;
+    let facultyID = document.getElementById("assignmentFaculty").value;
+
+    // add family
+    fetch('/api/setRoomTable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ // Fill out JSON request for controller
+            patientID: patientID,
+            facultyID: facultyID,
+            floorNumber: 1
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("", data.message);
+            updateAssignmentTable(); // Update the assignment table
         })
         .catch((error) => console.error('Error:', error));
 }
