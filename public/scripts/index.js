@@ -1,3 +1,4 @@
+
 // const table = document.getElementById("tableView");
 const patientBT = document.getElementById("patientBT");
 const familyBT = document.getElementById("familyBT");
@@ -20,14 +21,12 @@ patientBT.addEventListener('click', function(e){
     updatePatientTable();
     currentTable = "patient";
 });
-
 // Draws the patient table
 function updatePatientTable() {
     // Fetch result from patient controller
     fetch('/api/getPatientTable')
         .then(response => response.json())
         .then(data => {
-
             // Create table header
             let table = '<table class="tableFormat table-bordered">'+
                 '<tr><th class="tableFormat">ID</th><th class="tableFormat">First Name</th><th class="tableFormat">Last Name</th>'+
@@ -53,28 +52,26 @@ function updatePatientTable() {
             let attributes = '<th>First Name</th><th>Last Name</th><th>Priority</th><th>Condition</th><th>Trusted Family</th>'
             let insertion =
                 '<table class="insertTable">'+
-                '<tr>'+
+                '<tr><td>'+
                 '<input class="insert" id="firstName"></input>'+
                 '<input class="insert" id="lastName" style="margin-left:5.5%"></input>'+
                 '<input class="insert" id="priority" style="margin-left:10.5%"></input>'+
                 '<input class="insert" id="condition" style="margin-left:15.5%"></input>'+
-                '<select class="insertOption" id="family" style="margin-left:21%"></select>' +
-                '</tr>'+
-                '</table>';
-            //Populate the family selection option
-            const dropdown = document.getElementById("family");
-            const tableCells = document.querySelectorAll('#familyTable td');
-            const dataArray = Array.from(tableCells).map(cell => cell.textContent);
-            dataArray.forEach(function(item){
-                let option=document.createElement('option');
-                option.value=item;
-                option.text =item;
-                dropdown.appendChild(option);
-            });
+                '<select class="insertOption" id="family" style="margin-left:21%">';
 
-            document.getElementById("attribute").innerHTML = attributes;
-            document.getElementById("newRow").innerHTML = insertion;
-            document.getElementById("addData").style.visibility = 'visible';
+            //Populate the family selection option by fetching the family table first
+            fetch('/api/getFamilyTable')
+                .then(response => response.json())
+                .then(data =>{
+                    data.forEach(row => {
+                        insertion += `<option value="${row.FamilyID}">${row.FamilyLastName}</option>`
+                    });
+                    insertion += '</select></td></tr></table>'
+
+                    document.getElementById("attribute").innerHTML = attributes;
+                    document.getElementById("newRow").innerHTML = insertion;
+                    document.getElementById("addData").style.visibility = 'visible';
+                });
         });
 }
 
@@ -90,7 +87,8 @@ function updateFamilyTable(){
 
             // Create table header
             let table = '<table class="tableFormat table-bordered">'+
-                '<tr><th class="tableFormat">ID</th><th class="tableFormat">Last Name</th><th class="tableFormat">Phone Number</th></tr>';
+                '<tr><th class="tableFormat">ID</th><th class="tableFormat">Last Name</th>' +
+                '<th class="tableFormat">Phone Number</th></tr>';
 
             // console.log("Data is " + typeof(data));
             // Fill rows by row
@@ -114,7 +112,8 @@ function updateFamilyTable(){
                 '<select class="insertOption" id="phoneNumber" style="margin-left:5.5%"></select>' +
                 '</tr>'+
                 '</table>';
-
+            
+            
             document.getElementById("attribute").innerHTML = attributes;
             document.getElementById("newRow").innerHTML = insertion;
             document.getElementById("addData").style.visibility = 'visible';
@@ -176,6 +175,7 @@ paySumBT.addEventListener('click', function(e){
 /* Faculty */
 facultyBT.addEventListener('click', function(e){
     updateFacultyTable();
+    currentTable = "faculty";
 });
 
 // Draws the faculty table
@@ -225,13 +225,17 @@ function updateFacultyTable(){
                     document.getElementById("attribute").innerHTML = attributes;
                     document.getElementById("newRow").innerHTML = insertion;
                     document.getElementById("addData").style.visibility = 'visible';
-                    currentTable = "faculty";
                 })
         })
 }
 
 /* Medications */
 medicationBT.addEventListener('click', function(e){
+    updateMedicationTable();
+    currentTable = "medication";    
+});
+
+function updateMedicationTable(){
     fetch('/api/getMedicationTable')
         .then(response => response.json())
             .then(data =>{
@@ -254,12 +258,12 @@ medicationBT.addEventListener('click', function(e){
                 document.getElementById("table").innerHTML = table;
 
                 //Display the insert table and show add button
-                let attributes = '<th>Medication</th><th>Name</th>'
+                let attributes = '<th>Medication</th><th>Price</th>'
                 let insertion = 
                     '<table class="insertTable">'+
                         '<tr>'+
-                            '<input class="insert"></input>'+
-                            '<select class="insertOption" style="margin-left:5.5%"></select>'+
+                            '<input class="insert" id="medicationMed"></input>'+
+                            '<select class="insertOption" id="medicationPrice" style="margin-left:5.5%"></select>'+
                         '</tr>'+
                     '</table>';
                 document.getElementById("attribute").innerHTML = attributes;
@@ -267,7 +271,7 @@ medicationBT.addEventListener('click', function(e){
                 document.getElementById("addData").style.visibility = 'visible';
                 currentTable = "medication";
             });
-});
+}
 
 /* Payment */
 paymentBT.addEventListener('click', function(e){
@@ -293,8 +297,8 @@ paymentBT.addEventListener('click', function(e){
                 let insertion = 
                     '<table class="insertTable">'+
                         '<tr>'+
-                            '<input class="insert"></input>'+
-                            '<input class="insert" style="margin-left:5.5%"></input>'+
+                            '<input class="insert" id="paymentPrice"></input>'+
+                            '<input class="insert" id="paymentTax" style="margin-left:5.5%"></input>'+
                         '</tr>'+
                     '</table>';
                 document.getElementById("attribute").innerHTML = attributes;
@@ -303,11 +307,15 @@ paymentBT.addEventListener('click', function(e){
             });
 });
 
+function updatePaymentTable(){
+
+}
+
 /* Patient Meds */
 patientMedsBT.addEventListener('click', function(e){
     updatePatientMedsTable();
+    currentTable = 'patientMeds';
 });
-
 // Draws the patient meds table
 function updatePatientMedsTable() {
     fetch('/api/getPatientMedsTable')
@@ -365,7 +373,6 @@ function updatePatientMedsTable() {
                             document.getElementById("attribute").innerHTML = attributes;
                             document.getElementById("newRow").innerHTML = insertion;
                             document.getElementById("addData").style.visibility = 'visible';
-                            currentTable = "patientMeds";
                         })
                 })
         });
@@ -373,14 +380,12 @@ function updatePatientMedsTable() {
 
 /*Add Button */
 addBT.addEventListener('click', function(e){
-    if (currentTable === "patient") {
-        addPatient();
-    } else if (currentTable === "faculty") {
-        addFaculty();
-    } else if (currentTable === "patientMeds") {
-        addPatientMeds();
-    } else if (currentTable === "family"){
-        
+
+    switch(currentTable){
+        case "patient": addPatient(); break;
+        case "faculty": addFaculty(); break;
+        case "patientMeds": addPatientMeds(); break;
+        case "family": addFamily(); break;
     }
 });
 
@@ -474,7 +479,26 @@ function addPatientMeds() {
 
 }
 function addMedications(){
-    
+    let medicationID = document.getElementById("medicationMed").value;
+    let paymentID = document.getElementById("medicationPrice").value;
+
+    // add faculty
+    fetch('/api/setMedicationsTable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ // Fill out JSON request for controller
+            medicationID: parseInt(medicationID),
+            paymentID: parseInt(paymentID)
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success:", data.message);
+            updateMedicationTable(); //Update the medication table
+        })
+        .catch((error) => console.error('Error:', error));
 }
 function addPaymentCost(){
     
