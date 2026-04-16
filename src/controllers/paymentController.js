@@ -9,3 +9,7 @@ exports.getPaymentTable = (req, res)=>{
         res.json(results);
     });
 }
+
+exports.setPaymentTable = (req, res)=>{
+    const { paymentID, price, tax } = req.body;
+}

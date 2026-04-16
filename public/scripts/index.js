@@ -369,7 +369,6 @@ function updateMedicationTable() {
 patientMedsBT.addEventListener('click', function(e){
     updatePatientMedsTable();
 });
-
 // Draws the patient meds table
 function updatePatientMedsTable() {
     fetch('/api/getPatientMedsTable')

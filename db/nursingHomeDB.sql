@@ -21,9 +21,10 @@ CREATE TABLE `faculty_type` (
 DROP TABLE IF EXISTS `payment_system`;
 CREATE TABLE `payment_system` (
   `paymentID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
-  `price` float DEFAULT NULL,
-  `tax` float DEFAULT NULL,
-  PRIMARY KEY (`paymentID`)
+  `price` decimal(5, 2) NOT NULL,
+  `tax` decimal(5, 2) NOT NULL,
+  PRIMARY KEY (`paymentID`),
+  Constraint `payment_system_uq1` Unique(`price`, `tax`)
 );
 
 --
@@ -117,7 +118,7 @@ CREATE TABLE `patient_med` (
 DROP TABLE IF EXISTS `payment_summary`;
 CREATE TABLE `payment_summary` (
   `paymentSumID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
-  `netPayment` float DEFAULT NULL,
+  `netPayment` decimal(5, 2) DEFAULT NULL,
   `patientID` INTEGER NOT NULL,
   `paymentID` INTEGER NOT NULL,
   PRIMARY KEY (`paymentSumID`),
@@ -151,17 +152,6 @@ CREATE TABLE `works_with` (
   CONSTRAINT `works_with_ibfk_2` FOREIGN KEY (`facultyID`) REFERENCES `faculty` (`facultyID`),
   CONSTRAINT `works_with_ibfk_3` FOREIGN KEY (`paymentSumID`) REFERENCES `payment_summary` (`paymentSumID`)
 );
-
--- DB system users
--- CREATE TABLE `user` (
---   `id` INT NOT NULL AUTO_INCREMENT,
---   `username` VARCHAR(50) NOT NULL,
---   `password` VARCHAR(255) NOT NULL,
---   PRIMARY KEY (`id`)
--- );
--- INSERT INTO `user` (username, password) VALUES ('admin', 'password');
-
-
 
 -- NOTE:
 -- The Auto_Increment indices start at 1...retarded, I know
