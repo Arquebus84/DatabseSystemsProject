@@ -2,8 +2,16 @@ header.NurseryTitle{
     font-family: 'Times New Roman';
     font-size: 35px;
 }
+.mainContainer{
+    display: flex;
+    flex-direction: row;
+    flex-grow:1;
+    width:100%;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
 div.leftContainer{
-    position: absolute;
     height: 90vh;
     width: 22vw;
     left: 0%;
@@ -13,7 +21,6 @@ div.leftContainer{
 }
 div.buttonContainer{
     /* display:flex; */
-    position: absolute;
     left: 10%;
     top: 0%;
     align-items: center;
@@ -22,6 +29,7 @@ div.buttonContainer{
 /*DB Results*/
 div.resultContainer{
     display:flex;
+    flex-grow:1;
     justify-content: center;
     align-items: center;
     height:50vh;
@@ -36,7 +44,6 @@ table,th,td.tableFormat{
 
 /*Insertion*/
 div.rightContainer{
-    position: absolute;
     height: 90vh;
     width: 30vw;
     top: 8%;
@@ -45,24 +52,22 @@ div.rightContainer{
     border-collapse: collapse;
 }
 div.insertContainer{
-    position: absolute;
     top: 30%;
     left: 0%;
 }
 input.insert{
-    position: fixed;
+    /*position: fixed;*/
     font-family: 'Georgia';
     font-size: 16px;
-    width: 5%;
+    width:100%;
     height: 20px;
 }
 select.insertOption{    /*Used for pulling data from other tables (e.g. family last name)*/
-    position: fixed;
-    width: 5%;
-    height: 3%;
+    /*position: fixed;*/
+    width: 100%;
+    height: 20px;
 }
 button.addButton{
-    position:fixed;
     width: 8vw;
     top: 50%;
     visibility: hidden;
@@ -70,11 +75,9 @@ button.addButton{
 
 /*Patients*/
 div.patientOptions{
-    position: fixed;
     margin-top: 0%;
 }
 button.table_patient{
-    position:fixed;
     width: 16vw;
     height:4vh;
     margin-top: -1%;
@@ -82,7 +85,6 @@ button.table_patient{
     font-size: 18px;
 }
 button.table_family{
-    position:fixed;
     width:16vw;
     height:4vh;
     margin-top: 2%;
@@ -90,7 +92,6 @@ button.table_family{
     font-size: 18px;
 }
 button.table_room{
-    position:fixed;
     width:16vw;
     height:4vh;
     margin-top: 5%;
@@ -98,7 +99,6 @@ button.table_room{
     font-size: 18px;
 }
 button.table_paySum{
-    position:fixed;
     width:16vw;
     height:4vh;
     margin-top: 8%;
@@ -107,11 +107,9 @@ button.table_paySum{
 }
 /*Staff*/
 div.facultyOptions{
-    position: fixed;
     margin-top: 16%;
 }
 button.table_faculty{
-    position:fixed;
     width:16vw;
     height:4vh;
     margin-top: -1%;
@@ -119,7 +117,6 @@ button.table_faculty{
     font-size: 18px;
 }
 button.table_assignment{
-    position:fixed;
     width:16vw;
     height:4vh;
     margin-top: 2%;
@@ -128,27 +125,16 @@ button.table_assignment{
 }
 /*Medications*/
 div.medicationOptions{
-    position: fixed;
     margin-top: 26%;
 }
 button.table_medications{
-    position:fixed;
     width:16vw;
     height:4vh;
     margin-top: -1%;
     font-family: 'Georgia';
     font-size: 18px;
 }
-button.table_payment{
-    position:fixed;
-    width:16vw;
-    height:4vh;
-    margin-top: 2%;
-    font-family: 'Georgia';
-    font-size: 18px;
-}
 button.table_patientMeds{
-    position:fixed;
     width:16vw;
     height:4vh;
     margin-top: 5%;
