@@ -15,3 +15,17 @@ exports.getFamilyTable = (req, res) => {
         res.json(results);
     });
 };
+
+exports.getFamilies = (req, res) => {
+    // SQL command. Names mush match name in index.js
+    const sql = `
+        SELECT tf.familyLastName AS familyName, tf.familyID AS familyID
+        FROM trusted_family tf 
+    `;
+
+    // Query server with SQL command
+    pool.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+}

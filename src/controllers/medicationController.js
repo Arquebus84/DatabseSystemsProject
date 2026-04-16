@@ -29,3 +29,26 @@ exports.getMeds = (req, res) =>{
         res.json(results);
     });
 }
+
+exports.setMedicationTable = (req, res) => {
+    const { medicationName, medicationPrice, medicationTax } = req.body;
+
+    // Run the insert
+    const paymentSql = `INSERT INTO payment_system (price, tax) VALUES (?, ?)`;
+
+    pool.query(paymentSql, [medicationPrice, medicationTax], (err, result) => {
+        if (err) return res.status(500).json({error: err.message});
+
+        pool.query("SELECT MAX(paymentID) AS maxID FROM payment_system", (err, results) => {
+            const payID = (results[0].maxID || 0);
+
+            // Run the insert
+            const medicationSql = `INSERT INTO medication (medicationType, paymentID) VALUES (?, ?)`;
+
+            pool.query(medicationSql, [medicationName, payID], (err, result) => {
+                if (err) return res.status(500).json({error: err.message});
+                res.json({message: "Saved successfully"});
+            });
+        });
+    });
+}
