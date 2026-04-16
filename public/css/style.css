@@ -1,143 +1,20 @@
-header.NurseryTitle{
-    font-family: 'Times New Roman';
-    font-size: 35px;
-}
-.mainContainer{
-    display: flex;
-    flex-direction: row;
-    flex-grow:1;
-    width:100%;
-    flex-wrap: nowrap;
-    justify-content: space-around;
+.navbar .navbar-brand {
+    font-size: 3vw;
+    font-style: italic;
+    font-family: "Gupter";
+    font-weight: bold;
+    padding: 2px;
+    line-height: 1;
 }
 
-div.leftContainer{
-    height: 90vh;
-    width: 22vw;
-    left: 0%;
-    top: 8%;
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-div.buttonContainer{
-    /* display:flex; */
-    left: 10%;
-    top: 0%;
-    align-items: center;
+.buttonContainer {
+    height: calc(100dvh - 62px);
 }
 
-/*DB Results*/
-div.resultContainer{
-    display:flex;
-    flex-grow:1;
-    justify-content: center;
-    align-items: center;
-    height:50vh;
-}
 table,th,td.tableFormat{
     border: 1px solid black;
     border-collapse: collapse;
     font-family: 'Times New Roman';
     font-size: 16px;
     left: 0%;
-}
-
-/*Insertion*/
-div.rightContainer{
-    height: 90vh;
-    width: 30vw;
-    top: 8%;
-    right: 0%;
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-div.insertContainer{
-    top: 30%;
-    left: 0%;
-}
-input.insert{
-    /*position: fixed;*/
-    font-family: 'Georgia';
-    font-size: 16px;
-    width:100%;
-    height: 20px;
-}
-select.insertOption{    /*Used for pulling data from other tables (e.g. family last name)*/
-    /*position: fixed;*/
-    width: 100%;
-    height: 20px;
-}
-button.addButton{
-    width: 8vw;
-    top: 50%;
-    visibility: hidden;
-}
-
-/*Patients*/
-div.patientOptions{
-    margin-top: 0%;
-}
-button.table_patient{
-    width: 16vw;
-    height:4vh;
-    margin-top: -1%;
-    font-family: 'Georgia';
-    font-size: 18px;
-}
-button.table_family{
-    width:16vw;
-    height:4vh;
-    margin-top: 2%;
-    font-family: 'Georgia';
-    font-size: 18px;
-}
-button.table_room{
-    width:16vw;
-    height:4vh;
-    margin-top: 5%;
-    font-family: 'Georgia';
-    font-size: 18px;
-}
-button.table_paySum{
-    width:16vw;
-    height:4vh;
-    margin-top: 8%;
-    font-family: 'Georgia';
-    font-size: 18px;
-}
-/*Staff*/
-div.facultyOptions{
-    margin-top: 16%;
-}
-button.table_faculty{
-    width:16vw;
-    height:4vh;
-    margin-top: -1%;
-    font-family: 'Georgia';
-    font-size: 18px;
-}
-button.table_assignment{
-    width:16vw;
-    height:4vh;
-    margin-top: 2%;
-    font-family: 'Georgia';
-    font-size: 18px;
-}
-/*Medications*/
-div.medicationOptions{
-    margin-top: 26%;
-}
-button.table_medications{
-    width:16vw;
-    height:4vh;
-    margin-top: -1%;
-    font-family: 'Georgia';
-    font-size: 18px;
-}
-button.table_patientMeds{
-    width:16vw;
-    height:4vh;
-    margin-top: 5%;
-    font-family: 'Georgia';
-    font-size: 18px;
 }

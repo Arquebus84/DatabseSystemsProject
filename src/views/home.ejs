@@ -1,51 +1,76 @@
 <!DOCTYPE html>
 <html>
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
-</head>
-<header class="NurseryTitle">Nursery Organization</header>
+    <link href='https://fonts.googleapis.com' rel='stylesheet'>
+
 <body lang="en">
-    <div class="mainContainer">
-        <div class="leftContainer">
-            <div class="buttonContainer">
-                <div class="patientOptions">
-                    <h1>Patient Options</h1>
-                    <button class="table_patient" id="patientBT">Patient</button>
-                    <button class="table_family" id="familyBT">Patient Family</button>
-                    <button class="table_room" id="roomBT">Patient Rooms</button>
-                    <button class="table_paySum" id="paySumBT">Payment Summary</button>
-                </div>
+    <div class="container-fluid p-0">
+        <nav class="navbar navbar-light" style="background-color: #53f5c4;">
+            <a class="navbar-brand" href="#">
+            Nursery Management Portal
+            </a>
+        </nav>
+        <div class="row g-0">
+            <div class="col-md-3 border-end">
+                <div class="buttonContainer">
+                    <div class="patientOptions">
+                        <h4 class="text-center">Patient Options</h4>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-secondary w-75 mx-auto" id="patientBT">Patient</button>
+                            <button class="btn btn-secondary w-75 mx-auto" id="familyBT">Patient Family</button>
+                            <button class="btn btn-secondary w-75 mx-auto" id="roomBT">Patient Rooms</button>
+                            <button class="btn btn-secondary w-75 mx-auto" id="paySumBT">Payment Summary</button>
+                        </div>
+                    </div>
 
-                <div class="facultyOptions">
-                    <h1>Faculty Options</h1>
-                    <button class="table_faculty" id="facultyBT">Faculty</button>
-                    <button class="table_assignment" id="assignBT">Faculty-Patient Assignment</button>
-                </div>
+                    <div class="facultyOptions">
+                        <h4 class="text-center">Faculty Options</h4>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-secondary w-75 mx-auto" id="facultyBT">Faculty</button>
+                            <button class="btn btn-secondary w-75 mx-auto" id="assignBT">Faculty-Patient Assignment</button>
+                        </div>
+                    </div>
 
-                <div class="medicationOptions">
-                    <h1>Medication Options</h1>
-                    <button class="table_medications" id="medicationBT">Medications</button>
-                    <button class="table_patientMeds" id="patientMedsBT">Patient Medications</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="resultContainer">
-            <!-- <p class="result" id="tableView">Results Here</p> -->
-            <div class="card">
-                <div class="card-reader">
-                    <div class="row">
-                        <!-- <div class="col">Sample Data</div> -->
-                        <div class="col"></div>
+                    <div class="medicationOptions">
+                        <h4 class="text-center">Medication Options</h4>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-secondary w-75 mx-auto" id="medicationBT">Medications</button>
+                            <button class="btn btn-secondary w-75 mx-auto" id="paymentBT">Medication Cost</button>
+                            <button class="btn btn-secondary w-75 mx-auto" id="patientMedsBT">Patient Medications</button>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive" id="table">
-                        <!-- Table will autofill using code in index.js -->
-                        Awaiting Data
+            </div>
+            <div class="col-md-5 d-flex justify-content-center align-items-center">
+                <div class="insertContainer" id="insertStuff">
+                    <table>
+                        <tr id="attribute"></tr>
+                    </table>
+                    <div id="newRow"></div>
+                </div>
+                <button class="btn btn btn-primary mt-2" id="addData">Add</button>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center align-items-center">
+                <!-- <p class="result" id="tableView">Results Here</p> -->
+                <div class="card">
+                    <div class="card-reader">
+                        <div class="row">
+                            <!-- <div class="col">Sample Data</div> -->
+                            <div class="col"></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive" id="table">
+                            <!-- Table will autofill using code in index.js -->
+                            Awaiting Data
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,4 +86,5 @@
         <!-- <script type="module" src="database.js"></script> -->
     </div>
 </body>
+
 </html>
