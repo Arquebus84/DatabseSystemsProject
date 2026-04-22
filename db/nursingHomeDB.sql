@@ -129,7 +129,7 @@ CREATE TABLE `payment_summary` (
 --
 DROP TABLE IF EXISTS `assigned_room`;
 CREATE TABLE `assigned_room` (
-  `patientRoomID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
+  `patientRoomID` INTEGER NOT NULL,
   `facultyID` INTEGER NOT NULL,
   `floorNumber` INTEGER NOT NULL,
   PRIMARY KEY (`patientRoomID`,`facultyID`),

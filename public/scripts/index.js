@@ -11,6 +11,7 @@ const medicationBT = document.getElementById('medicationBT');
 const patientMedsBT = document.getElementById("patientMedsBT");
 
 const addBT = document.getElementById('addData');
+const deleteBT = document.getElementById('deleteData');
 
 let currentTable = "";
 
@@ -27,9 +28,7 @@ function updatePatientTable() {
         .then(data => {
 
             // Create table header
-            let table = '<table class="tableFormat table-bordered">'+
-                '<tr><th class="tableFormat">First Name</th><th class="tableFormat">Last Name</th>'+
-                '<th class="tableFormat">Priority</th><th class="tableFormat">Condition</th><th class="tableFormat">Family</th></tr>';
+            let table = '';
 
             // console.log("Data is " + typeof(data));
             // Fill rows by row
@@ -42,21 +41,18 @@ function updatePatientTable() {
                     `<td class="tableFormat">${row.familyContact}</td></tr>`;
             });
 
-            // Add table closing
-            table += '</table>';
             // Insert table into html
-            document.getElementById("table").innerHTML = table;
+            document.getElementById("table").innerHTML =
+                '<table class="tableFormat table-bordered">'+
+                    '<tr>' +
+                        '<th class="tableFormat">First Name</th><th class="tableFormat">Last Name</th><th class="tableFormat">Priority</th><th class="tableFormat">Condition</th><th class="tableFormat">Family</th>' +
+                    '</tr>' +
+                    table +
+                '</table>'
+            ;
 
             //Display the insert table and show add button
-            let insertion =
-                '<table class="insertTable">'+
-                '<tr><th>First Name</th><th>Last Name</th><th>Priority</th><th>Condition</th><th>Trusted Family</th></tr>' +
-                '<tr>'+
-                '<td><input class="insert" id="firstName"></input></td>'+
-                '<td><input class="insert" id="lastName"></input></td>'+
-                '<td><input class="insert" id="priority"></input></td>'+
-                '<td><input class="insert" id="condition"></input></td>'+
-                '<td><select class="insertOption" id="family">'+
+            let insertion = '';
 
                 fetch('/api/getFamilies')
                     .then(response => response.json())
@@ -64,12 +60,24 @@ function updatePatientTable() {
                         data.forEach(row => {
                             insertion = insertion + `<option value="${row.familyID}">${row.familyName}</option>`;
                         })
-                        insertion = insertion +
-                            '</select></td>' +
-                            '</tr>'+
-                            '</table>';
 
-                        document.getElementById("insertContainer").innerHTML = insertion;
+                        document.getElementById("insertContainer").innerHTML =
+
+                            '<table class="insertTable">'+
+                                '<tr>' +
+                                    '<th>First Name</th><th>Last Name</th><th>Priority</th><th>Condition</th><th>Trusted Family</th>' +
+                                '</tr>' +
+                                '<tr>'+
+                                    '<td><input class="insert" id="firstName"></input></td>'+
+                                    '<td><input class="insert" id="lastName"></input></td>'+
+                                    '<td><input class="insert" id="priority"></input></td>'+
+                                    '<td><input class="insert" id="condition"></input></td>'+
+                                    '<td><select class="insertOption" id="family">'+
+                                        insertion +
+                                    '</select></td>' +
+                                '</tr>'+
+                            '</table>'
+                        ;
                         document.getElementById("addData").style.visibility = 'visible';
 
                         currentTable = "patient";
@@ -90,8 +98,7 @@ function updateFamilyTable() {
         .then(data => {
 
             // Create table header
-            let table = '<table class="tableFormat table-bordered">'+
-                '<tr><th class="tableFormat">Family Name</th><th class="tableFormat">Phone Number</th></tr>';
+            let table = '';
 
             // console.log("Data is " + typeof(data));
             // Fill rows by row
@@ -101,21 +108,28 @@ function updateFamilyTable() {
                     `<td class="tableFormat">${row.phoneNumber}</td></tr>`
             });
 
-            // Add table closing
-            table += '</table>';
-
             // Insert table into html
-            document.getElementById("table").innerHTML = table;
+            document.getElementById("table").innerHTML =
+                '<table class="tableFormat table-bordered">'+
+                    '<tr>' +
+                        '<th class="tableFormat">Family Name</th><th class="tableFormat">Phone Number</th>' +
+                    '</tr>' +
+                    table +
+                '</table>'
+            ;
 
             //Display the insert table and show add button
-            let insertion =
+            document.getElementById("insertContainer").innerHTML =
                 '<table class="insertTable">'+
-                '<tr><th>Family Name</th><th>Phone Number</th></tr>' +
-                '<tr>'+
-                '<td><input class="insert" id="familyName"></input></td>'+
-                '<td><input class="insert" id="phoneNumber"></input></td>';
-
-            document.getElementById("insertContainer").innerHTML = insertion;
+                    '<tr>' +
+                        '<th>Family Name</th><th>Phone Number</th>' +
+                    '</tr>' +
+                    '<tr>'+
+                        '<td><input class="insert" id="familyName"></input></td>'+
+                        '<td><input class="insert" id="phoneNumber"></input></td>' +
+                    '</tr>' +
+                '</table>';
+            ;
             document.getElementById("addData").style.visibility = 'visible';
 
             currentTable = "family";
@@ -133,8 +147,7 @@ function updateRoomTable() {
         .then(response => response.json())
         .then(data => {
 
-            let table = '<table class="tableFormat table-bordered"><tr>' +
-                '<th>Room Number</th><th>Patient First Name</th><th>Patient Last Name</th>';
+            let table = '';
 
             Object.values(data).forEach(row=>{
                 table += `<tr><td class="tableFormat">${row.roomNumber}</td>`+
@@ -142,17 +155,17 @@ function updateRoomTable() {
                     `<td class="tableFormat">${row.lastName}</td></tr>`;
             });
 
-            table += '</table>';
-
-            document.getElementById("table").innerHTML = table;
+            document.getElementById("table").innerHTML =
+                '<table class="tableFormat table-bordered">' +
+                    '<tr>' +
+                        '<th>Room Number</th><th>Patient First Name</th><th>Patient Last Name</th>' +
+                    '</tr>' +
+                    table +
+                '</table>'
+            ;
 
             //Display the insert table and show add button
-            let insertion =
-                '<table class="insertTable">'+
-                '<tr><th>Room</th><th>Name</th></tr>' +
-                '<tr>'+
-                '<td><input class="insert" id="roomNum"></input></td>'+
-                '<td><select class="insertOption" id="patientID">'+
+            let insertion = '';
 
             fetch('/api/getPatientTable')
                 .then(response => response.json())
@@ -160,12 +173,20 @@ function updateRoomTable() {
                     data.forEach(row => {
                         insertion = insertion + `<option value="${row.ID}">${row.firstName} ${row.lastName}</option>`;
                     })
-                    insertion = insertion +
-                        '</select></td>' +
-                        '</tr>' +
-                        '</table>';
 
-                    document.getElementById("insertContainer").innerHTML = insertion;
+                    document.getElementById("insertContainer").innerHTML =
+                        '<table class="insertTable">'+
+                            '<tr>' +
+                                '<th>Room</th><th>Name</th>' +
+                            '</tr>' +
+                            '<tr>'+
+                                '<td><input class="insert" id="roomNum"></input></td>'+
+                                '<td><select class="insertOption" id="patientID">'+
+                                insertion +
+                                '</select></td>' +
+                            '</tr>' +
+                        '</table>'
+                    ;
                     document.getElementById("addData").style.visibility = 'visible';
 
                     currentTable = "room";
@@ -175,29 +196,38 @@ function updateRoomTable() {
 
 /* Pay Sum */
 paySumBT.addEventListener('click', function(e){
+    updatePaySumTable();
+});
+
+// Draws the payment summary table
+function updatePaySumTable() {
     fetch('/api/getPaySumTable')
         .then(response => response.json())
-            .then(data =>{
-                // Create table header
-                let table = '<table class="tableFormat table-bordered"><tr>' +
-                    '<th>Net Payment</th><th>Patient Last Name</th>';
+        .then(data =>{
+            // Create table header
+            let table = '';
 
-                Object.values(data).forEach(row =>{
-                    table += `<tr><td class="tableFormat">${row.netPayment}</td>`+
-                        `<td class="tableFormat">${row.patientName}</td></tr>`
-                });
-
-                table += '</table>';
-
-                document.getElementById("table").innerHTML = table;
-
-                //Display the insert table and don't show add button
-                document.getElementById("insertContainer").innerHTML = "";
-                document.getElementById("addData").style.visibility = 'hidden';
+            Object.values(data).forEach(row =>{
+                table += `<tr><td class="tableFormat">${row.netPayment}</td>`+
+                    `<td class="tableFormat">${row.patientName}</td></tr>`
             });
 
+            document.getElementById("table").innerHTML =
+                '<table class="tableFormat table-bordered">' +
+                    '<tr>' +
+                        '<th>Net Payment</th><th>Patient Last Name</th>' +
+                    '</tr>' +
+                    table +
+                '</table>'
+            ;
+
+            //Display the insert table and don't show add button
+            document.getElementById("insertContainer").innerHTML = "";
+            document.getElementById("addData").style.visibility = 'hidden';
+        });
+
     currentTable = "payment";
-});
+}
 
 /* Faculty */
 facultyBT.addEventListener('click', function(e){
@@ -212,31 +242,27 @@ function updateFacultyTable(){
         .then(data => {
 
             // Create table header
-            let table = '<table class="tableFormat table-bordered"><tr>' +
-                '<th class="tableFormat">Last Name</th><th class="tableFormat">Type</th></tr>';
+            let table = '';
 
             //console.log("Data is " + typeof(data));
             // Fill rows by row
             Object.values(data).forEach(row => {
                 table +=
-                    `<td class="tableFormat">${row.facultyLastName}</td>` +
+                    `<tr><td class="tableFormat">${row.facultyLastName}</td>` +
                     `<td class="tableFormat">${row.facultyType}</td></tr>`;
             });
 
-            // Add table closing
-            table += '</table>';
-
             // Insert table into html
-            document.getElementById("table").innerHTML = table;
+            document.getElementById("table").innerHTML =
+                '<table class="tableFormat table-bordered">' +
+                    '<tr>' +
+                        '<th class="tableFormat">Last Name</th><th class="tableFormat">Type</th>' +
+                    '</tr>'
+                    + table +
+                '</table>';
 
             //Display the insert table and show add button
-            let insertion =
-                '<table class="insertTable">'+
-                '<tr><th>Last Name</th><th>Faculty Type</th></tr>'+
-                '<tr>'+
-                '<td><input class="insert" id="lastName"></input></td>'+
-                '<td><select name="facultyType" class="insertOption" id="facultyType" style="margin-left:5.5%">';
-
+            let insertion = '';
 
             fetch('/api/getFacultyTypes')
                 .then(response => response.json())
@@ -244,12 +270,20 @@ function updateFacultyTable(){
                     data.forEach(row => {
                         insertion = insertion + `<option value="${row.facultyTypeID}">${row.facultyType}</option>`;
                     })
-                    insertion = insertion +
-                        '</select></td>'+
-                        '</tr>'+
-                        '</table>';
 
-                    document.getElementById("insertContainer").innerHTML = insertion;
+                    document.getElementById("insertContainer").innerHTML =
+                        '<table class="insertTable">'+
+                            '<tr><th>Last Name</th><th>Faculty Type</th></tr>'+
+                            '<tr>'+
+                                '<td><input class="insert" id="lastName"></input></td>'+
+                                '<td>' +
+                                    '<select name="facultyType" class="insertOption" id="facultyType" style="margin-left:5.5%">' +
+                                        insertion +
+                                    '</select>' +
+                                '</td>'+
+                            '</tr>'+
+                        '</table>'
+                    ;
                     document.getElementById("addData").style.visibility = 'visible';
 
                     currentTable = "faculty";
@@ -268,8 +302,7 @@ function updateAssignmentTable(){
         .then(response => response.json())
         .then(data =>{
             // Create table header
-            let table = '<table class="tableFormat table-bordered">' +
-                '<tr><th>Room Num</th><th>Patient Name</th><th>Faculty Assigned</th></tr>';
+            let table = '';
 
             Object.values(data).forEach(row =>{
                 table += `<tr><td class="tableFormat">${row.roomNum}</td>` +
@@ -277,52 +310,55 @@ function updateAssignmentTable(){
                     `<td class="tableFormat">${row.facultyName}</td></tr>`;
             });
 
-            table += '</table>';
+            document.getElementById("table").innerHTML =
+                '<table class="tableFormat table-bordered">' +
+                    '<tr><th>Room Num</th><th>Patient Name</th><th>Faculty Assigned</th></tr>' +
+                    table +
+                '</table>'
+            ;
 
-            document.getElementById("table").innerHTML = table;
 
-
-            /*
-            //Display the insert table and show add button
-            let insertion =
-                '<table class="insertTable">'+
-                '<tr><th>Patient</th><th>Medication</th></tr>' +
-                '<tr><td><select name="patients" class="insertOption" id="assignmentPatients">';
+            // Display the insert table and show add button
+            let insertionPatient = '';
+            let insertionFaculty = '';
 
             // Get patients and fill the patient drop down
             fetch('/api/getPatientTable')
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(row => {
-                        insertion = insertion + `<option value="${row.ID}">${row.firstName} ${row.lastName}</option>`;
+                        insertionPatient = insertionPatient + `<option value="${row.ID}">${row.firstName} ${row.lastName}</option>`;
                     })
-                    insertion = insertion +
-                        '</select>'+
-                        '</td>' +
-                        '<td>' +
-                        '<select name="faculty" class="insertOption" id="assignmentFaculty">';
 
-                    // Get medications and fill medication drop down
+                    // Get faculty and fill faculty drop down
                     fetch('/api/getFacultyTable')
                         .then(response => response.json())
                         .then(data => {
                             data.forEach(row => {
-                                insertion = insertion + `<option value="${row.facultyID}">${row.facultyLastName}</option>`;
+                                insertionFaculty = insertionFaculty + `<option value="${row.facultyID}">${row.facultyLastName}</option>`;
                             })
-                            insertion = insertion +
-                                '</select>' +
-                                '</td>' +
-                                '</tr>' +
-                                '</table>';
 
-                            document.getElementById("insertContainer").innerHTML = insertion;
+                            document.getElementById("insertContainer").innerHTML =
+                                '<table class="insertTable">'+
+                                    '<tr><th>Patient</th><th>Room</th></tr>' +
+                                    '<tr>' +
+                                        '<td><select name="patients" class="insertOption" id="assignmentPatients">' +
+                                                insertionPatient +
+                                            '</select>'+
+                                        '</td>' +
+                                        '<td>' +
+                                            '<select name="faculty" class="insertOption" id="assignmentFaculty">' +
+                                                insertionFaculty +
+                                            '</select>' +
+                                        '</td>' +
+                                    '</tr>' +
+                                '</table>'
+                            ;
                             document.getElementById("addData").style.visibility = 'visible';
 
                             currentTable = "assignment";
                         })
                 })
-
-             */
         });
 }
 
@@ -337,9 +373,7 @@ function updateMedicationTable() {
         .then(response => response.json())
         .then(data =>{
             // Create table header
-            let table = '<table class="tableFormat table-bordered">'+
-                '<tr><th class="tableFormat">Medication</th><th class="tableFormat">Price</th>'+
-                '<th class="tableFormat">Tax</th></tr>';
+            let table = '';
 
             // console.log("Data is " + typeof(data));
             // Fill rows by row
@@ -349,22 +383,24 @@ function updateMedicationTable() {
                     `<td class="tableFormat">${row.Tax}</td></tr>`;
             });
 
-            // Add table closing
-            table += '</table>';
             // Insert table into html
-            document.getElementById("table").innerHTML = table;
+            document.getElementById("table").innerHTML =
+                '<table class="tableFormat table-bordered">'+
+                    '<tr><th class="tableFormat">Medication</th><th class="tableFormat">Price</th><th class="tableFormat">Tax</th></tr>' +
+                    table +
+                '</table>';
 
             //Display the insert table and show add button
             let insertion =
                 '<table class="insertTable">'+
-                '<tr>'+
-                '<th>Medication</th><th>Price</th><th>Tax</th>'+
-                '</tr>'+
-                '<tr>'+
-                '<td><input class="insert" id="medicationName" style="margin-left:0%"></input></td>' +
-                '<td><input class="insert" id="medicationPrice" style="margin-left:5.5%"></input></td>' +
-                '<td><input class="insert" id="medicationTax" style="margin-left:10.5%"></input></td>' +
-                '</tr>'+
+                    '<tr>'+
+                        '<th>Medication</th><th>Price</th><th>Tax</th>'+
+                    '</tr>'+
+                    '<tr>'+
+                        '<td><input class="insert" id="medicationName" style="margin-left:0%"></input></td>' +
+                        '<td><input class="insert" id="medicationPrice" style="margin-left:5.5%"></input></td>' +
+                        '<td><input class="insert" id="medicationTax" style="margin-left:10.5%"></input></td>' +
+                    '</tr>'+
                 '</table>';
 
             document.getElementById("insertContainer").innerHTML = insertion;
@@ -385,8 +421,7 @@ function updatePatientMedsTable() {
         .then(response => response.json())
         .then(data =>{
             // Create table header
-            let table = '<table class="tableFormat table-bordered">'+
-                '<tr><th class="tableFormat">First Name</th><th class="tableFormat">Last Name</th><th class="tableFormat">Medication</th><tr>';
+            let table = '';
 
             Object.values(data).forEach(row =>{
                 table += `<tr><td class="tableFormat">${row.firstName}</td>` +
@@ -394,46 +429,51 @@ function updatePatientMedsTable() {
                     `<td class="tableFormat">${row.medication}</td></tr>`;
             });
 
-            table += '</table>';
-
-            document.getElementById("table").innerHTML = table;
+            document.getElementById("table").innerHTML =
+                '<table class="tableFormat table-bordered">'+
+                    '<tr><th class="tableFormat">First Name</th><th class="tableFormat">Last Name</th><th class="tableFormat">Medication</th><tr>' +
+                    table +
+                '</table>'
+            ;
 
             //Display the insert table and show add button
             let attributes = '<th>Patient</th><th>Medication</th>'
 
-            let insertion =
-                '<table class="insertTable">'+
-                '<tr><th>Patient</th><th>Medication</th></tr><tr>'+
-                '<td>' +
-                '<select name="patients" class="insertOption" id="patientMedPatients">';
+            let insertionPatients = '';
+            let insertionMedication = '';
 
             // Get patients and fill the patient drop down
             fetch('/api/getPatientTable')
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(row => {
-                        insertion = insertion + `<option value="${row.ID}">${row.firstName} ${row.lastName}</option>`;
+                        insertionPatients = insertionPatients + `<option value="${row.ID}">${row.firstName} ${row.lastName}</option>`;
                     })
-                    insertion = insertion +
-                        '</select>'+
-                        '</td>' +
-                        '<td>' +
-                        '<select name="medication" class="insertOption" id="patientMedMeds">';
 
                     // Get medications and fill medication drop down
                     fetch('/api/getMeds')
                         .then(response => response.json())
                         .then(data => {
                             data.forEach(row => {
-                                insertion = insertion + `<option value="${row.medicationID}">${row.medicationType}</option>`;
+                                insertionMedication = insertionMedication + `<option value="${row.medicationID}">${row.medicationType}</option>`;
                             })
-                            insertion = insertion +
-                                '</select>' +
-                                '</td>' +
-                                '</tr>' +
-                                '</table>';
 
-                            document.getElementById("insertContainer").innerHTML = insertion;
+                            document.getElementById("insertContainer").innerHTML =
+                                '<table class="insertTable">'+
+                                    '<tr><th>Patient</th><th>Medication</th></tr><tr>'+
+                                        '<td>' +
+                                            '<select name="patients" class="insertOption" id="patientMedPatients">' +
+                                            insertionPatients +
+                                            '</select>'+
+                                            '</td>' +
+                                            '<td>' +
+                                            '<select name="medication" class="insertOption" id="patientMedMeds">' +
+                                            insertionMedication +
+                                            '</select>' +
+                                        '</td>' +
+                                    '</tr>' +
+                                '</table>'
+                            ;
                             document.getElementById("addData").style.visibility = 'visible';
 
                             currentTable = "patientMeds";
@@ -608,7 +648,7 @@ function addAssignment() {
     let facultyID = document.getElementById("assignmentFaculty").value;
 
     // add family
-    fetch('/api/setRoomTable', {
+    fetch('/api/setAssignmentTable', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
