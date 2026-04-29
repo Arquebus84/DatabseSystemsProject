@@ -6,10 +6,22 @@
 -- create database nursingHomeDB;
 -- use nursingHomeDB;
 
+
+DROP TABLE IF EXISTS `works_with`;
+DROP TABLE IF EXISTS `payment_summary`;
+DROP TABLE IF EXISTS `assigned_room`;
+DROP TABLE IF EXISTS `patient_med`;
+DROP TABLE IF EXISTS `patient_room`;
+DROP TABLE IF EXISTS `patient`;
+DROP TABLE IF EXISTS `trusted_family`;
+DROP TABLE IF EXISTS `phone_number`;
+DROP TABLE IF EXISTS `medication`;
+DROP TABLE IF EXISTS `payment_system`;
+DROP TABLE IF EXISTS `faculty`;
+DROP TABLE IF EXISTS `faculty_type`;
 --
 -- Table structure for table `faculty_type`
 --
-DROP TABLE IF EXISTS `faculty_type`;
 CREATE TABLE `faculty_type` (
   `facultyTypeID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
   `facultyType` varchar(12) DEFAULT NULL
@@ -18,7 +30,6 @@ CREATE TABLE `faculty_type` (
 --
 -- Table structure for table `payment_system`
 --
-DROP TABLE IF EXISTS `payment_system`;
 CREATE TABLE `payment_system` (
   `paymentID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `price` float DEFAULT NULL,
@@ -29,19 +40,17 @@ CREATE TABLE `payment_system` (
 --
 -- Table structure for table `medication`
 --
-DROP TABLE IF EXISTS `medication`;
 CREATE TABLE `medication` (
   `medicationID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `medicationType` varchar(20) DEFAULT NULL,
   `paymentID` INTEGER NOT NULL,
   PRIMARY KEY (`medicationID`),
-  CONSTRAINT `medication_idfk_1` FOREIGN KEY (`paymentID`) REFERENCES `payment_system` (`paymentID`)
+  CONSTRAINT `medication_idfk_1` FOREIGN KEY (`paymentID`) REFERENCES `payment_system` (`paymentID`) ON DELETE CASCADE
 );
 
 --
 -- Table structure for table `phone_number`
 --
-DROP TABLE IF EXISTS `phone_number`;
 CREATE TABLE `phone_number` (
   `numberID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `phoneNumber` varchar(12) DEFAULT NULL,
@@ -51,30 +60,27 @@ CREATE TABLE `phone_number` (
 --
 -- Table structure for table `faculty`
 --
-DROP TABLE IF EXISTS `faculty`;
 CREATE TABLE `faculty` (
   `facultyID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
   `facultyLastName` varchar(20) DEFAULT NULL,
   `facultyTypeID` INTEGER NOT NULL,
-  CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`facultyTypeID`) REFERENCES `faculty_type` (`facultyTypeID`)
+  CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`facultyTypeID`) REFERENCES `faculty_type` (`facultyTypeID`) ON DELETE CASCADE
 );
 
 --
 -- Table structure for table `trusted_family`
 --
-DROP TABLE IF EXISTS `trusted_family`;
 CREATE TABLE `trusted_family` (
   `familyID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `familyLastName` varchar(20) DEFAULT NULL,
   `phoneNumberID` INTEGER NOT NULL,
   PRIMARY KEY (`familyID`),
-  CONSTRAINT `trusted_family_ibfk_1` FOREIGN KEY (`phoneNumberID`) REFERENCES `phone_number` (`numberID`)
+  CONSTRAINT `trusted_family_ibfk_1` FOREIGN KEY (`phoneNumberID`) REFERENCES `phone_number` (`numberID`) ON DELETE CASCADE
 );
 
 --
 -- Table structure for table `patient`
 --
-DROP TABLE IF EXISTS `patient`;
 CREATE TABLE `patient` (
   `patientID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
   `firstName` varchar(20) DEFAULT NULL,
@@ -82,84 +88,69 @@ CREATE TABLE `patient` (
   `patientPriority` INTEGER DEFAULT NULL,
   `conditionDesc` varchar(100) DEFAULT NULL,
   `familyID` INTEGER NOT NULL,
-  CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`familyID`) REFERENCES `trusted_family` (`familyID`),
+  CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`familyID`) REFERENCES `trusted_family` (`familyID`) ON DELETE CASCADE,
   CONSTRAINT `patient_chk_1` CHECK (((`patientPriority` > 0) AND (`patientPriority` <= 5)))
 );
 
 --
 -- Table structure for table `patient_room`
 --
-DROP TABLE IF EXISTS `patient_room`;
 CREATE TABLE `patient_room` (
   `patientRoomID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `patientRoomNumber` varchar(4) NOT NULL,
   `patientID` INTEGER NOT NULL UNIQUE,
   PRIMARY KEY (`patientRoomID`,`patientID`),
-  CONSTRAINT `patient_room_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`)
+  CONSTRAINT `patient_room_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`) ON DELETE CASCADE
 );
 
 --
 -- Table structure for table `patient_med`
 --
-DROP TABLE IF EXISTS `patient_med`;
 CREATE TABLE `patient_med` (
   `patientID` INTEGER NOT NULL,
   `medicationID` INTEGER NOT NULL,
   PRIMARY KEY (`medicationID`,`patientID`),
-  CONSTRAINT `patient_med_ibfk_1` FOREIGN KEY (`medicationID`) REFERENCES `medication` (`medicationID`),
-  CONSTRAINT `patient_med_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`)
+  CONSTRAINT `patient_med_ibfk_1` FOREIGN KEY (`medicationID`) REFERENCES `medication` (`medicationID`) ON DELETE CASCADE,
+  CONSTRAINT `patient_med_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`) ON DELETE CASCADE
 );
 
 --
 -- Table structure for table `payment_summary`
 --
-DROP TABLE IF EXISTS `payment_summary`;
 CREATE TABLE `payment_summary` (
   `paymentSumID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   `netPayment` float DEFAULT NULL,
   `patientID` INTEGER NOT NULL,
   `paymentID` INTEGER NOT NULL,
   PRIMARY KEY (`paymentSumID`),
-  CONSTRAINT `payment_summary_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`),
-  CONSTRAINT `payment_summary_ibfk_1` FOREIGN KEY (`paymentID`) REFERENCES `payment_system` (`paymentID`)
+  CONSTRAINT `payment_summary_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`) ON DELETE CASCADE,
+  CONSTRAINT `payment_summary_ibfk_1` FOREIGN KEY (`paymentID`) REFERENCES `payment_system` (`paymentID`) ON DELETE CASCADE
 );
 
 --
 -- Table structure for table `assigned_room`
 --
-DROP TABLE IF EXISTS `assigned_room`;
 CREATE TABLE `assigned_room` (
-  `patientRoomID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
+  `patientRoomID` INTEGER NOT NULL,
   `facultyID` INTEGER NOT NULL,
   `floorNumber` INTEGER NOT NULL,
   PRIMARY KEY (`patientRoomID`,`facultyID`),
-  CONSTRAINT `assigned_room_ibfk_1` FOREIGN KEY (`patientRoomID`) REFERENCES `patient_room` (`patientroomID`),
+  CONSTRAINT `assigned_room_ibfk_1` FOREIGN KEY (`patientRoomID`) REFERENCES `patient_room` (`patientroomID`) ON DELETE CASCADE,
   CONSTRAINT `assigned_room_chk_1` CHECK (((`floorNumber` > 0) and (`floorNumber` < 4)))
 );
 
 --
 -- Table structure for table `works_with`
 --
-DROP TABLE IF EXISTS `works_with`;
 CREATE TABLE `works_with` (
   `familyID` INTEGER NOT NULL,
   `facultyID` INTEGER NOT NULL,
   `paymentSumID` INTEGER NOT NULL,
   PRIMARY KEY (`facultyID`, `familyID`),
-  CONSTRAINT `works_with_ibfk_1` FOREIGN KEY (`familyID`) REFERENCES `trusted_family` (`familyID`),
-  CONSTRAINT `works_with_ibfk_2` FOREIGN KEY (`facultyID`) REFERENCES `faculty` (`facultyID`),
-  CONSTRAINT `works_with_ibfk_3` FOREIGN KEY (`paymentSumID`) REFERENCES `payment_summary` (`paymentSumID`)
+  CONSTRAINT `works_with_ibfk_1` FOREIGN KEY (`familyID`) REFERENCES `trusted_family` (`familyID`) ON DELETE CASCADE,
+  CONSTRAINT `works_with_ibfk_2` FOREIGN KEY (`facultyID`) REFERENCES `faculty` (`facultyID`) ON DELETE CASCADE,
+  CONSTRAINT `works_with_ibfk_3` FOREIGN KEY (`paymentSumID`) REFERENCES `payment_summary` (`paymentSumID`) ON DELETE CASCADE
 );
-
--- DB system users
--- CREATE TABLE `user` (
---   `id` INT NOT NULL AUTO_INCREMENT,
---   `username` VARCHAR(50) NOT NULL,
---   `password` VARCHAR(255) NOT NULL,
---   PRIMARY KEY (`id`)
--- );
--- INSERT INTO `user` (username, password) VALUES ('admin', 'password');
-
 
 
 -- NOTE:

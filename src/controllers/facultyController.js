@@ -40,3 +40,15 @@ exports.getFacultyTypes = (req, res) => {
         res.json(results);
     });
 };
+
+exports.deleteFacultyTable = (req, res) =>{
+    const { facultyID } = req.params;
+
+    // Run the insert
+    const deleteSql = `DELETE FROM faculty WHERE facultyID = ?`;
+
+    pool.query(deleteSql, [facultyID], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "Saved successfully"});
+    });
+};

@@ -27,3 +27,15 @@ exports.setPatientTable = (req, res) =>{
         res.json({ message: "Saved successfully"});
     });
 };
+
+exports.deletePatientTable = (req, res) =>{
+    const { patientID } = req.params;
+
+    // Run the insert
+    const deleteSql = `DELETE FROM patient WHERE patientID = ?`;
+
+    pool.query(deleteSql, [patientID], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "Saved successfully"});
+    });
+};
