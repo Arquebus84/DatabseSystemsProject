@@ -5,6 +5,8 @@ exports.getAssignmentTable = (req, res) => {
     // SQL command. Names mush match name in index.js
     const sql = `
         SELECT
+            a.patientRoomID AS patientRoomID,
+            a.facultyID AS facultyID,
             pr.patientRoomNumber AS roomNum,
             p.firstName AS firstName,
             p.lastName AS lastName,
@@ -54,5 +56,17 @@ exports.setAssignmentTable = (req, res) => {
             }
             res.json({ message: "Staff member assigned to room successfully"});
         });
+    });
+};
+
+exports.deleteAssignmentTable = (req, res) =>{
+    const { patientRoomID, facultyID } = req.body;
+
+    // Run the insert
+    const deleteSql = `DELETE FROM assigned_room WHERE patientRoomID = ? AND facultyID = ?`;
+
+    pool.query(deleteSql, [patientRoomID, facultyID], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "Saved successfully"});
     });
 };

@@ -11,7 +11,6 @@ const medicationBT = document.getElementById('medicationBT');
 const patientMedsBT = document.getElementById("patientMedsBT");
 
 const addBT = document.getElementById('addData');
-const deleteBT = document.getElementById('deleteData');
 
 let currentTable = "";
 
@@ -38,7 +37,8 @@ function updatePatientTable() {
                     `<td class="tableFormat">${row.lastName}</td>` +
                     `<td class="tableFormat">${row.priority}</td>` +
                     `<td class="tableFormat">${row.conditionDesc}</td>` +
-                    `<td class="tableFormat">${row.familyContact}</td></tr>`;
+                    `<td class="tableFormat">${row.familyContact}</td>` +
+                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="patientDelete${row.ID}" onclick="patientDelete(${row.ID})">Delete</button></td></tr>`;
             });
 
             // Insert table into html
@@ -105,7 +105,8 @@ function updateFamilyTable() {
             Object.values(data).forEach(row => {
                 table +=
                     `<tr><td class="tableFormat">${row.familyName}</td>` +
-                    `<td class="tableFormat">${row.phoneNumber}</td></tr>`
+                    `<td class="tableFormat">${row.phoneNumber}</td>` +
+                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="familyDelete${row.ID}" onclick="familyDelete(${row.ID})">Delete</button></td></tr>`
             });
 
             // Insert table into html
@@ -152,7 +153,8 @@ function updateRoomTable() {
             Object.values(data).forEach(row=>{
                 table += `<tr><td class="tableFormat">${row.roomNumber}</td>`+
                     `<td class="tableFormat">${row.firstName}</td>` +
-                    `<td class="tableFormat">${row.lastName}</td></tr>`;
+                    `<td class="tableFormat">${row.lastName}</td>` +
+                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="roomDelete${row.ID}" onclick="roomDelete(${row.ID})">Delete</button></td></tr>`;
             });
 
             document.getElementById("table").innerHTML =
@@ -249,7 +251,8 @@ function updateFacultyTable(){
             Object.values(data).forEach(row => {
                 table +=
                     `<tr><td class="tableFormat">${row.facultyLastName}</td>` +
-                    `<td class="tableFormat">${row.facultyType}</td></tr>`;
+                    `<td class="tableFormat">${row.facultyType}</td>` +
+                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="facultyDelete${row.facultyID}" onclick="facultyDelete(${row.facultyID})">Delete</button></td></tr>`;
             });
 
             // Insert table into html
@@ -307,7 +310,8 @@ function updateAssignmentTable(){
             Object.values(data).forEach(row =>{
                 table += `<tr><td class="tableFormat">${row.roomNum}</td>` +
                     `<td class="tableFormat">${row.firstName} ${row.lastName}</td>`+
-                    `<td class="tableFormat">${row.facultyName}</td></tr>`;
+                    `<td class="tableFormat">${row.facultyName}</td>` +
+                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="assignmentDelete${row.patientRoomID}${row.facultyID}" onclick="assignmentDelete(${row.patientRoomID}, ${row.facultyID})">Delete</button></td></tr>`;
             });
 
             document.getElementById("table").innerHTML =
@@ -380,7 +384,8 @@ function updateMedicationTable() {
             Object.values(data).forEach(row => {
                 table += `<tr><td class="tableFormat">${row.Medication}</td>` +
                     `<td class="tableFormat">${row.Price}</td>` +
-                    `<td class="tableFormat">${row.Tax}</td></tr>`;
+                    `<td class="tableFormat">${row.Tax}</td>` +
+                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="medDelete${row.ID}" onclick="medDelete(${row.ID})">Delete</button></td></tr>`;
             });
 
             // Insert table into html
@@ -397,9 +402,9 @@ function updateMedicationTable() {
                         '<th>Medication</th><th>Price</th><th>Tax</th>'+
                     '</tr>'+
                     '<tr>'+
-                        '<td><input class="insert" id="medicationName" style="margin-left:0%"></input></td>' +
-                        '<td><input class="insert" id="medicationPrice" style="margin-left:5.5%"></input></td>' +
-                        '<td><input class="insert" id="medicationTax" style="margin-left:10.5%"></input></td>' +
+                        '<td><input class="insert" id="medicationName"></input></td>' +
+                        '<td><input class="insert" id="medicationPrice"></input></td>' +
+                        '<td><input class="insert" id="medicationTax"></input></td>' +
                     '</tr>'+
                 '</table>';
 
@@ -426,7 +431,8 @@ function updatePatientMedsTable() {
             Object.values(data).forEach(row =>{
                 table += `<tr><td class="tableFormat">${row.firstName}</td>` +
                     `<td class="tableFormat">${row.lastName}</td>`+
-                    `<td class="tableFormat">${row.medication}</td></tr>`;
+                    `<td class="tableFormat">${row.medication}</td>` +
+                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="patientMedDelete${row.patientID}${row.medicationID}" onclick="patientMedDelete(${row.patientID}, ${row.medicationID})">Delete</button></td></tr>`;
             });
 
             document.getElementById("table").innerHTML =
@@ -665,4 +671,139 @@ function addAssignment() {
             updateAssignmentTable(); // Update the assignment table
         })
         .catch((error) => console.error('Error:', error));
+}
+
+// Deletion Handlers
+function patientDelete(id) {
+    if (confirm("Are you sure you want to delete this?")) {
+        // delete patient
+        fetch(`/api/deletePatientTable/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("", data.message);
+                updatePatientTable(); // Update the table
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+}
+
+function familyDelete(id) {
+    if (confirm("Are you sure you want to delete this?")) {
+        // delete family
+        fetch(`/api/deleteFamilyTable/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("", data.message);
+                updateFamilyTable(); // Update the table
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+}
+
+function roomDelete(id) {
+    if (confirm("Are you sure you want to delete this?")) {
+        // delete room
+        fetch(`/api/deleteRoomTable/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("", data.message);
+                updateRoomTable(); // Update the table
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+}
+
+function facultyDelete(id) {
+    if (confirm("Are you sure you want to delete this?")) {
+        // delete faculty
+        fetch(`/api/deleteFacultyTable/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("", data.message);
+                updateFacultyTable(); // Update the table
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+}
+
+function assignmentDelete(patientRoomID, facultyID) {
+    if (confirm("Are you sure you want to delete this?")) {
+        // delete assignment
+        fetch(`/api/deleteAssignmentTable/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ // Fill out JSON request for controller
+                patientRoomID: patientRoomID,
+                facultyID: facultyID,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("", data.message);
+                updateAssignmentTable(); // Update the table
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+}
+
+function patientMedDelete(patientID, medicationID) {
+    if (confirm("Are you sure you want to delete this?")) {
+        // delete patient med relations
+        fetch(`/api/deletePatientMedTable/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ // Fill out JSON request for controller
+                patientID: patientID,
+                medicationID: medicationID,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("", data.message);
+                updatePatientMedsTable(); // Update the table
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+}
+
+function medDelete(id) {
+    if (confirm("Are you sure you want to delete this?")) {
+        // delete medication
+        fetch(`/api/deleteMedTable/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("", data.message);
+                updateMedicationTable(); // Update the table
+            })
+            .catch((error) => console.error('Error:', error));
+    }
 }
