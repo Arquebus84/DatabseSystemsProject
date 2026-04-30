@@ -38,3 +38,15 @@ exports.deleteRoomTable = (req, res) =>{
         res.json({ message: "Saved successfully"});
     });
 };
+
+exports.updateRoomTable = (req, res) =>{
+    const { roomID, roomNum, patientID } = req.body;
+
+    // Run the insert
+    const insertSql = `UPDATE patient_room SET patientRoomNumber = ?, patientID = ? WHERE patientRoomID = ?`;
+
+    pool.query(insertSql, [roomNum, patientID, roomID], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "Saved successfully"});
+    });
+};

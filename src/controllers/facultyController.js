@@ -52,3 +52,15 @@ exports.deleteFacultyTable = (req, res) =>{
         res.json({ message: "Saved successfully"});
     });
 };
+
+exports.updateFacultyTable = (req, res) =>{
+    const { facultyID, facultyLastName, facultyTypeID } = req.body
+
+    // Run the insert
+    const insertSql = `UPDATE faculty SET facultyLastName = ?, facultyTypeID = ? WHERE facultyID = ?`;
+
+    pool.query(insertSql, [facultyLastName, facultyTypeID, facultyID], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "Saved successfully"});
+    });
+};
