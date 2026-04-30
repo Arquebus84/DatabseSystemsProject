@@ -11,8 +11,32 @@ const medicationBT = document.getElementById('medicationBT');
 const patientMedsBT = document.getElementById("patientMedsBT");
 
 const addBT = document.getElementById('addData');
+const updateBT = document.getElementById('submitButton');
+const updateOverlay = document.getElementById('popupOverlay');
 
 let currentTable = "";
+
+// Open updater utility
+function openUpdater(id) {
+    updateOverlay.style.display = 'block';
+    document.getElementById('updateID').value = id;
+    document.getElementById('infoInput').innerHTML = document.getElementById('insertContainer').innerHTML;
+    document.getElementById('insertContainer').innerHTML = '';
+}
+
+// Closes the updater utility
+function closeUpdater() {
+    updateOverlay.style.display = 'none';
+    document.getElementById('insertContainer').innerHTML = document.getElementById('infoInput').innerHTML;
+    document.getElementById('infoInput').innerHTML = '';
+}
+
+// Close updater if user clicks outside of window
+window.addEventListener('click', (event) => {
+    if (event.target === updateOverlay) {
+        closeUpdater();
+    }
+});
 
 /* Patient */
 patientBT.addEventListener('click', function(e){
@@ -38,7 +62,10 @@ function updatePatientTable() {
                     `<td class="tableFormat">${row.priority}</td>` +
                     `<td class="tableFormat">${row.conditionDesc}</td>` +
                     `<td class="tableFormat">${row.familyContact}</td>` +
-                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="patientDelete${row.ID}" onclick="patientDelete(${row.ID})">Delete</button></td></tr>`;
+                    `<td class="tableFormat">` +
+                        `<button class="systemButton btn btn btn-primary mt-2" id="patientDelete${row.ID}" onclick="patientDelete(${row.ID})">Delete</button>` +
+                        `<button class="systemButton btn btn btn-primary mt-2" id="openUpdater${row.ID}" onclick="openUpdater(${row.ID})">Update</button>` +
+                    `</td></tr>`;
             });
 
             // Insert table into html
@@ -100,16 +127,18 @@ function updateFamilyTable() {
             // Create table header
             let table = '';
 
-            // console.log("Data is " + typeof(data));
             // Fill rows by row
             Object.values(data).forEach(row => {
                 table +=
                     `<tr><td class="tableFormat">${row.familyName}</td>` +
                     `<td class="tableFormat">${row.phoneNumber}</td>` +
-                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="familyDelete${row.ID}" onclick="familyDelete(${row.ID})">Delete</button></td></tr>`
+                    `<td class="tableFormat">` +
+                        `<button class="systemButton btn btn btn-primary mt-2" id="familyDelete${row.ID}" onclick="familyDelete(${row.ID})">Delete</button>` +
+                        `<button class="systemButton btn btn-primary mt-2" id="openUpdater${row.ID}" onclick="openUpdater('${row.ID}, ${row.phoneID}')">Update</button>` +
+                    `</td></tr>`
             });
 
-            // Insert table into html
+            // Insert table into HTML
             document.getElementById("table").innerHTML =
                 '<table class="tableFormat table-bordered">'+
                     '<tr>' +
@@ -129,7 +158,7 @@ function updateFamilyTable() {
                         '<td><input class="insert" id="familyName"></input></td>'+
                         '<td><input class="insert" id="phoneNumber"></input></td>' +
                     '</tr>' +
-                '</table>';
+                '</table>'
             ;
             document.getElementById("addData").style.visibility = 'visible';
 
@@ -154,7 +183,10 @@ function updateRoomTable() {
                 table += `<tr><td class="tableFormat">${row.roomNumber}</td>`+
                     `<td class="tableFormat">${row.firstName}</td>` +
                     `<td class="tableFormat">${row.lastName}</td>` +
-                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="roomDelete${row.ID}" onclick="roomDelete(${row.ID})">Delete</button></td></tr>`;
+                    `<td class="tableFormat">` +
+                        `<button class="systemButton btn btn btn-primary mt-2" id="roomDelete${row.ID}" onclick="roomDelete(${row.ID})">Delete</button>` +
+                        `<button class="systemButton btn btn btn-primary mt-2" id="openUpdater${row.ID}" onclick="openUpdater(${row.ID})">Update</button>` +
+                    `</td></tr>`;
             });
 
             document.getElementById("table").innerHTML =
@@ -252,7 +284,10 @@ function updateFacultyTable(){
                 table +=
                     `<tr><td class="tableFormat">${row.facultyLastName}</td>` +
                     `<td class="tableFormat">${row.facultyType}</td>` +
-                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="facultyDelete${row.facultyID}" onclick="facultyDelete(${row.facultyID})">Delete</button></td></tr>`;
+                    `<td class="tableFormat">` +
+                        `<button class="systemButton btn btn btn-primary mt-2" id="facultyDelete${row.facultyID}" onclick="facultyDelete(${row.facultyID})">Delete</button>` +
+                        `<button class="systemButton btn btn btn-primary mt-2" id="openUpdater${row.facultyID}" onclick="openUpdater(${row.facultyID})">Update</button>` +
+                    `</td></tr>`;
             });
 
             // Insert table into html
@@ -311,7 +346,9 @@ function updateAssignmentTable(){
                 table += `<tr><td class="tableFormat">${row.roomNum}</td>` +
                     `<td class="tableFormat">${row.firstName} ${row.lastName}</td>`+
                     `<td class="tableFormat">${row.facultyName}</td>` +
-                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="assignmentDelete${row.patientRoomID}${row.facultyID}" onclick="assignmentDelete(${row.patientRoomID}, ${row.facultyID})">Delete</button></td></tr>`;
+                    `<td class="tableFormat">` +
+                        `<button class="systemButton btn btn btn-primary mt-2" id="assignmentDelete${row.patientRoomID}${row.facultyID}" onclick="assignmentDelete(${row.patientRoomID}, ${row.facultyID})">Delete</button>` +
+                    `</td></tr>`;
             });
 
             document.getElementById("table").innerHTML =
@@ -385,7 +422,10 @@ function updateMedicationTable() {
                 table += `<tr><td class="tableFormat">${row.Medication}</td>` +
                     `<td class="tableFormat">${row.Price}</td>` +
                     `<td class="tableFormat">${row.Tax}</td>` +
-                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="medDelete${row.ID}" onclick="medDelete(${row.ID})">Delete</button></td></tr>`;
+                    `<td class="tableFormat">` +
+                        `<button class="systemButton btn btn btn-primary mt-2" id="medDelete${row.ID}" onclick="medDelete(${row.ID})">Delete</button>` +
+                        `<button class="systemButton btn btn btn-primary mt-2" id="openUpdater${row.ID}" onclick="openUpdater('${row.ID}, ${row.payID}')" style="font-family: Arial">Update</button>` +
+                    `</td></tr>`;
             });
 
             // Insert table into html
@@ -396,7 +436,7 @@ function updateMedicationTable() {
                 '</table>';
 
             //Display the insert table and show add button
-            let insertion =
+            document.getElementById("insertContainer").innerHTML =
                 '<table class="insertTable">'+
                     '<tr>'+
                         '<th>Medication</th><th>Price</th><th>Tax</th>'+
@@ -407,8 +447,6 @@ function updateMedicationTable() {
                         '<td><input class="insert" id="medicationTax"></input></td>' +
                     '</tr>'+
                 '</table>';
-
-            document.getElementById("insertContainer").innerHTML = insertion;
             document.getElementById("addData").style.visibility = 'visible';
 
             currentTable = "medication";
@@ -432,7 +470,7 @@ function updatePatientMedsTable() {
                 table += `<tr><td class="tableFormat">${row.firstName}</td>` +
                     `<td class="tableFormat">${row.lastName}</td>`+
                     `<td class="tableFormat">${row.medication}</td>` +
-                    `<td class="tableFormat"><button class="btn btn btn-primary mt-2" id="patientMedDelete${row.patientID}${row.medicationID}" onclick="patientMedDelete(${row.patientID}, ${row.medicationID})">Delete</button></td></tr>`;
+                    `<td class="tableFormat"><button class="systemButton btn btn btn-primary mt-2" id="patientMedDelete${row.patientID}${row.medicationID}" onclick="patientMedDelete(${row.patientID}, ${row.medicationID})">Delete</button></td></tr>`;
             });
 
             document.getElementById("table").innerHTML =
@@ -806,4 +844,160 @@ function medDelete(id) {
             })
             .catch((error) => console.error('Error:', error));
     }
+}
+
+/* Update Button */
+updateBT.addEventListener('click', function(e){
+    if (currentTable === "patient") {
+        updatePatient();
+    } else if (currentTable === "faculty") {
+        updateFaculty();
+    } else if (currentTable === "medication") {
+        updateMedication();
+    } else if (currentTable === "family") {
+        updateFamily();
+    } else if (currentTable === "room") {
+        updateRoom();
+    }
+});
+
+// Update helpers
+function updatePatient() {
+    let updateID = document.getElementById('updateID').value;
+    let firstName = document.getElementById("firstName").value;
+    let lastName = document.getElementById("lastName").value;
+    let patientPriority = document.getElementById("priority").value;
+    let conditionDesc = document.getElementById("condition").value;
+    let familyID = document.getElementById("family").value;
+
+    // update patient
+    fetch('/api/updatePatientTable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ // Fill out JSON request for controller
+            patientID: updateID,
+            firstName: firstName,
+            lastName: lastName,
+            patientPriority: patientPriority,
+            conditionDesc: conditionDesc,
+            familyID: familyID
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success:", data.message);
+            closeUpdater();
+            updatePatientTable();
+        })
+        .catch((error) => console.error('Error:', error));
+}
+
+function updateFaculty() {
+    let updateID = document.getElementById('updateID').value;
+    let lastName = document.getElementById("lastName").value;
+    let facultyType = document.getElementById("facultyType").value;
+
+    // update faculty
+    fetch('/api/updateFacultyTable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ // Fill out JSON request for controller
+            facultyID: updateID,
+            facultyLastName: lastName,
+            facultyTypeID: facultyType
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success:", data.message);
+            closeUpdater();
+            updateFacultyTable();
+        })
+        .catch((error) => console.error('Error:', error));
+}
+
+function updateMedication() {
+    let updateID = document.getElementById('updateID').value.split(', ');
+    let medication = document.getElementById("medicationName").value;
+    let price = document.getElementById("medicationPrice").value;
+    let tax = document.getElementById("medicationTax").value;
+
+    // add medication
+    fetch('/api/updateMedicationTable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ // Fill out JSON request for controller
+            medicationID: updateID[0],
+            paymentID : updateID[1],
+            medicationName: medication,
+            medicationPrice: price,
+            medicationTax: tax
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success:", data.message);
+            closeUpdater();
+            updateMedicationTable(); // Update the med table
+        })
+        .catch((error) => console.error('Error:', error));
+}
+
+function updateFamily() {
+    let updateID = document.getElementById('updateID').value.split(', ');
+    let familyName = document.getElementById("familyName").value;
+    let phoneNumber = document.getElementById("phoneNumber").value;
+
+    // add medication
+    fetch('/api/updateFamilyTable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ // Fill out JSON request for controller
+            familyID: updateID[0],
+            phoneID : updateID[1],
+            familyName: familyName,
+            phoneNumber: phoneNumber
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success:", data.message);
+            closeUpdater();
+            updateFamilyTable(); // Update the med table
+        })
+        .catch((error) => console.error('Error:', error));
+}
+
+function updateRoom() {
+    let updateID = document.getElementById('updateID').value;
+    let roomNum = document.getElementById("roomNum").value;
+    let patientID = document.getElementById("patientID").value;
+
+    // add family
+    fetch('/api/updateRoomTable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ // Fill out JSON request for controller
+            roomID: updateID,
+            roomNum: roomNum,
+            patientID: patientID,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("", data.message);
+            closeUpdater();
+            updateRoomTable(); // Update the room table
+        })
+        .catch((error) => console.error('Error:', error));
 }

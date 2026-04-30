@@ -3,7 +3,7 @@ const pool = require('../models/database');
 exports.getFamilyTable = (req, res) => {
     // SQL command. Names mush match name in index.js
     const sql = `
-        SELECT tf.familyID AS ID, tf.familyLastName AS familyName, pn.phoneNumber AS phoneNumber
+        SELECT tf.familyID AS ID, tf.familyLastName AS familyName, pn.phoneNumber AS phoneNumber, pn.numberID AS phoneID
         FROM trusted_family tf
                  JOIN phone_number pn
         WHERE tf.phoneNumberID = pn.numberID
@@ -63,3 +63,22 @@ exports.deleteFamilyTable = (req, res) =>{
         res.json({ message: "Saved successfully"});
     });
 };
+
+exports.updateFamilyTable = (req, res) => {
+    const {familyID, phoneID, familyName, phoneNumber} = req.body;
+
+    // Run the insert
+    const phoneNumSql = `UPDATE phone_number SET phoneNumber = ? WHERE numberID = ?`;
+
+    pool.query(phoneNumSql, [phoneNumber, phoneID], (err, result) => {
+        if (err) return res.status(500).json({error: err.message});
+
+        // Run the insert
+        const familySql = `UPDATE trusted_family SET familyLastName = ? WHERE familyID = ?`;
+
+        pool.query(familySql, [familyName, familyID], (err, result) => {
+            if (err) return res.status(500).json({error: err.message});
+            res.json({message: "Saved successfully"});
+        });
+    });
+}
