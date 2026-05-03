@@ -381,7 +381,7 @@ function updateAssignmentTable(){
 
                             document.getElementById("insertContainer").innerHTML =
                                 '<table class="insertTable">'+
-                                    '<tr><th>Patient</th><th>Room</th></tr>' +
+                                    '<tr><th>Patient</th><th>Faculty</th></tr>' +
                                     '<tr>' +
                                         '<td><select name="patients" class="insertOption" id="assignmentPatients">' +
                                                 insertionPatient +
@@ -700,7 +700,6 @@ function addAssignment() {
         body: JSON.stringify({ // Fill out JSON request for controller
             patientID: patientID,
             facultyID: facultyID,
-            floorNumber: 1
         }),
     })
         .then(response => response.json())

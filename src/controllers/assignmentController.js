@@ -25,11 +25,11 @@ exports.getAssignmentTable = (req, res) => {
 };
 
 exports.setAssignmentTable = (req, res) => {
-    const { patientID, facultyID, floorNumber } = req.body;
+    const { patientID, facultyID } = req.body;
 
     // Find the patient's room ID using parameterized queries
     const getPatientRoomSql = `
-        SELECT pr.patientRoomID 
+        SELECT pr.patientRoomID, pr.patientRoomNumber
         FROM patient_room pr
         WHERE pr.patientID = ?`;
 
@@ -43,13 +43,14 @@ exports.setAssignmentTable = (req, res) => {
 
         // Extract the actual ID value from the row object
         const patientRoomID = results[0].patientRoomID;
+        const roomFloorNumber = (results[0].patientRoomNumber - (results[0].patientRoomNumber % 1000)) / 1000;
 
         // Run the insert with the required floorNumber
         const insertSql = `
             INSERT INTO assigned_room (patientRoomID, facultyID, floorNumber)
             VALUES (?, ?, ?)`;
 
-        pool.query(insertSql, [patientRoomID, facultyID, floorNumber], (err, result) => {
+        pool.query(insertSql, [patientRoomID, facultyID, roomFloorNumber], (err, result) => {
             if (err) {
                 // Handle the UNIQUE constraint if this room/faculty combo already exists
                 return res.status(500).json({ error: "Assignment already exists or invalid data" });
