@@ -375,7 +375,7 @@ function updateAssignmentTable(){
 
                             document.getElementById("insertContainer").innerHTML =
                                 '<table class="insertTable">'+
-                                    '<tr><th>Patient</th><th>Room</th></tr>' +
+                                    '<tr><th>Patient</th><th>Faculty</th></tr>' +
                                     '<tr>' +
                                         '<td><select name="patients" class="insertOption" id="assignmentPatients">' +
                                                 insertionPatient +
