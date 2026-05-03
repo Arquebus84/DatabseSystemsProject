@@ -337,7 +337,7 @@ function updateAssignmentTable(){
             let table = '';
 
             Object.values(data).forEach(row =>{
-                table += `<tr><td class="tableFormat">${row.facultyName}</td>`+
+                table += `<tr><td class="tableFormat">${row.roomNum}</td>` +
                     `<td class="tableFormat">${row.firstName} ${row.lastName}</td>`+
                     `<td class="tableFormat">${row.facultyName}</td>` +
                     `<td class="tableFormat">` +
@@ -375,7 +375,7 @@ function updateAssignmentTable(){
 
                             document.getElementById("insertContainer").innerHTML =
                                 '<table class="insertTable">'+
-                                    '<tr><th>Patient</th><th>Faculty</th></tr>' +
+                                    '<tr><th>Patient</th><th>Room</th></tr>' +
                                     '<tr>' +
                                         '<td><select name="patients" class="insertOption" id="assignmentPatients">' +
                                                 insertionPatient +
@@ -396,7 +396,6 @@ function updateAssignmentTable(){
                 })
         });
 }
-
 /* Medications */
 medicationBT.addEventListener('click', function(e){
     updateMedicationTable();
