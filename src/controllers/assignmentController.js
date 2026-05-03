@@ -4,18 +4,19 @@ const result = require("mysql/lib/protocol/packets/OkPacket");
 exports.getAssignmentTable = (req, res) => {
     // SQL command. Names mush match name in index.js
     const sql = `
-        SELECT
+        select 
             a.patientRoomID AS patientRoomID,
             a.facultyID AS facultyID,
             pr.patientRoomNumber AS roomNum,
             p.firstName AS firstName,
             p.lastName AS lastName,
             f.facultyLastName AS facultyName
-        FROM assigned_room a
-        JOIN patient_room pr ON a.patientRoomID = pr.patientRoomID
-        JOIN patient p ON pr.patientID = p.patientID
-        JOIN faculty f ON a.facultyID = f.facultyID
-    `;
+        from assigned_room a
+        join patient_room pr
+        join patient p
+        join faculty f
+        where a.patientRoomID = pr.patientRoomID AND a.facultyID = f.facultyID AND pr.patientID = p.patientID
+        `;
 
     // Query server with SQL command
     pool.query(sql, (err, results) => {

@@ -2,9 +2,9 @@
 -- ------------------------------------------------------
 -- Server version	8.0.44
 
--- drop database nursingHomeDB;
--- create database nursingHomeDB;
--- use nursingHomeDB;
+drop database nursingHomeDB;
+create database nursingHomeDB;
+use nursingHomeDB;
 
 
 DROP TABLE IF EXISTS `works_with`;
@@ -32,9 +32,10 @@ CREATE TABLE `faculty_type` (
 --
 CREATE TABLE `payment_system` (
   `paymentID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
-  `price` float DEFAULT NULL,
-  `tax` float DEFAULT NULL,
-  PRIMARY KEY (`paymentID`)
+  `price` decimal(5, 2) NOT NULL,
+  `tax` decimal(5, 2) NOT NULL,
+  PRIMARY KEY (`paymentID`),
+  Constraint `payment_system_uq1` Unique(`price`, `tax`)
 );
 
 --
@@ -97,10 +98,11 @@ CREATE TABLE `patient` (
 --
 CREATE TABLE `patient_room` (
   `patientRoomID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
-  `patientRoomNumber` varchar(4) NOT NULL,
+  `patientRoomNumber` INTEGER NOT NULL,
   `patientID` INTEGER NOT NULL UNIQUE,
   PRIMARY KEY (`patientRoomID`,`patientID`),
-  CONSTRAINT `patient_room_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`) ON DELETE CASCADE
+  CONSTRAINT `patient_room_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`) ON DELETE CASCADE,
+  CONSTRAINT `patient_room_chk_1` CHECK ((`patientRoomNumber` > 0) AND (`patientRoomNumber` < 4000))
 );
 
 --
@@ -119,7 +121,7 @@ CREATE TABLE `patient_med` (
 --
 CREATE TABLE `payment_summary` (
   `paymentSumID` INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
-  `netPayment` float DEFAULT NULL,
+  `netPayment` decimal(5, 2) DEFAULT NULL,
   `patientID` INTEGER NOT NULL,
   `paymentID` INTEGER NOT NULL,
   PRIMARY KEY (`paymentSumID`),
@@ -131,9 +133,9 @@ CREATE TABLE `payment_summary` (
 -- Table structure for table `assigned_room`
 --
 CREATE TABLE `assigned_room` (
-  `patientRoomID` INTEGER NOT NULL,
+  `patientRoomID` INTEGER NOT NULL UNIQUE,
   `facultyID` INTEGER NOT NULL,
-  `floorNumber` INTEGER NOT NULL,
+  `floorNumber` INTEGER,
   PRIMARY KEY (`patientRoomID`,`facultyID`),
   CONSTRAINT `assigned_room_ibfk_1` FOREIGN KEY (`patientRoomID`) REFERENCES `patient_room` (`patientroomID`) ON DELETE CASCADE,
   CONSTRAINT `assigned_room_chk_1` CHECK (((`floorNumber` > 0) and (`floorNumber` < 4)))
@@ -151,7 +153,6 @@ CREATE TABLE `works_with` (
   CONSTRAINT `works_with_ibfk_2` FOREIGN KEY (`facultyID`) REFERENCES `faculty` (`facultyID`) ON DELETE CASCADE,
   CONSTRAINT `works_with_ibfk_3` FOREIGN KEY (`paymentSumID`) REFERENCES `payment_summary` (`paymentSumID`) ON DELETE CASCADE
 );
-
 
 -- NOTE:
 -- The Auto_Increment indices start at 1...retarded, I know
@@ -202,8 +203,8 @@ INSERT INTO patient_room (patientRoomNumber, patientID) VALUES (1132, 2);
 INSERT INTO patient_room (patientRoomNumber, patientID) VALUES (2002, 1);
 
 -- Faculty can be assigned to multiple patient rooms (ergo many patients) which will be a M:N
-INSERT INTO assigned_room (patientRoomID, facultyID, floorNumber) VALUES (2, 1, 2);
-INSERT INTO assigned_room (patientRoomID, facultyID, floorNumber) VALUES (1, 4, 1);
+INSERT INTO assigned_room (patientRoomID, facultyID) VALUES (2, 1);
+INSERT INTO assigned_room (patientRoomID, facultyID) VALUES (1, 4);
 
 -- This looks awful: it can lead to some repetition, therefore, the query had to be very specific
 INSERT INTO patient_med (patientID, medicationID) VALUES (1, 1);

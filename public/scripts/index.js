@@ -42,7 +42,6 @@ window.addEventListener('click', (event) => {
 patientBT.addEventListener('click', function(e){
     updatePatientTable();
 });
-
 // Draws the patient table
 function updatePatientTable() {
     // Fetch result from patient controller
@@ -116,7 +115,6 @@ function updatePatientTable() {
 familyBT.addEventListener('click', function(e){
     updateFamilyTable();
 });
-
 // Draws the family table
 function updateFamilyTable() {
     // Fetch result from family controller
@@ -170,7 +168,6 @@ function updateFamilyTable() {
 roomBT.addEventListener('click', function(e){
     updateRoomTable();
 });
-
 // Draws the room table
 function updateRoomTable() {
     fetch('/api/getRoomTable')
@@ -227,7 +224,6 @@ function updateRoomTable() {
                 });
         });
 }
-
 /* Pay Sum */
 paySumBT.addEventListener('click', function(e){
     updatePaySumTable();
@@ -267,7 +263,6 @@ function updatePaySumTable() {
 facultyBT.addEventListener('click', function(e){
     updateFacultyTable();
 });
-
 // Draws the faculty table
 function updateFacultyTable(){
     // Fetch result from faculty controller
@@ -333,7 +328,6 @@ function updateFacultyTable(){
 assignBT.addEventListener('click', function(e){
     updateAssignmentTable();
 })
-
 // Draws the assignment table
 function updateAssignmentTable(){
     fetch('/api/getAssignmentTable')
@@ -402,7 +396,6 @@ function updateAssignmentTable(){
                 })
         });
 }
-
 /* Medications */
 medicationBT.addEventListener('click', function(e){
     updateMedicationTable();
@@ -457,7 +450,6 @@ function updateMedicationTable() {
 patientMedsBT.addEventListener('click', function(e){
     updatePatientMedsTable();
 });
-
 // Draws the patient meds table
 function updatePatientMedsTable() {
     fetch('/api/getPatientMedsTable')

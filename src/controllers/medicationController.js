@@ -38,7 +38,8 @@ exports.setMedicationTable = (req, res) => {
                         VALUES (?, ?)`;
 
     pool.query(paymentSql, [medicationPrice, medicationTax], (err, result) => {
-        if (err) return res.status(500).json({error: err.message});
+
+        if(err) return res.status(500).json({error: err.message});
 
         const newPayID = result.insertId;
 
@@ -82,4 +83,21 @@ exports.updateMedicationTable = (req, res) => {
             res.json({message: "Saved successfully"});
         });
     });
+    //Disabled for testing
+
+    // pool.query(paymentSql, [medicationPrice, medicationTax], (err, result) => {
+    //     if (err) return res.status(500).json({error: err.message});
+
+    //     pool.query("SELECT MAX(paymentID) AS maxID FROM payment_system", (err, results) => {
+    //         const payID = (results[0].maxID || 0);
+
+    //         // Run the insert
+    //         const medicationSql = `INSERT INTO medication (medicationType, paymentID) VALUES (?, ?)`;
+
+    //         pool.query(medicationSql, [medicationName, payID], (err, result) => {
+    //             if (err) return res.status(500).json({error: err.message});
+    //             res.json({message: "Saved successfully"});
+    //         });
+    //     });
+    // });
 }
