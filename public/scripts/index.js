@@ -692,7 +692,6 @@ function addAssignment() {
         body: JSON.stringify({ // Fill out JSON request for controller
             patientID: patientID,
             facultyID: facultyID,
-            floorNumber: 1
         }),
     })
         .then(response => response.json())
