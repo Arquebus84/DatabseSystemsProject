@@ -3,7 +3,7 @@ const pool = require('../models/database');
 exports.getMedicationTable = (req, res) => {
     // SQL command. Names mush match name in index.js
     const sql = `
-        SELECT med.medicationID AS ID, med.medicationType AS Medication, sys.price AS Price, sys.tax AS Tax
+        SELECT med.medicationID AS ID, med.medicationType AS Medication, sys.price AS Price, sys.tax AS Tax, sys.paymentID AS payID
         FROM medication med
                  JOIN payment_system sys
         WHERE med.paymentID = sys.paymentID
@@ -64,3 +64,22 @@ exports.deleteMedTable = (req, res) =>{
         res.json({ message: "Saved successfully"});
     });
 };
+
+exports.updateMedicationTable = (req, res) => {
+    const {medicationID, paymentID, medicationName, medicationPrice, medicationTax} = req.body;
+
+    // Run the insert
+    const paymentSql = `UPDATE payment_system SET price = ?, tax = ? WHERE paymentID = ?`;
+
+    pool.query(paymentSql, [medicationPrice, medicationTax, paymentID], (err, result) => {
+        if (err) return res.status(500).json({error: err.message});
+
+        // Run the insert
+        const medicationSql = `UPDATE medication SET medicationType = ? WHERE medicationID = ?`;
+
+        pool.query(medicationSql, [medicationName, medicationID], (err, result) => {
+            if (err) return res.status(500).json({error: err.message});
+            res.json({message: "Saved successfully"});
+        });
+    });
+}

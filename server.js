@@ -1,9 +1,9 @@
+const dotenv = require("dotenv").config();
 var path = require('path');
 var express = require('express');
 var app = express();
 
 var dataRoutes = require('./src/routes/data');
-// const db = require('./src/models/database');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
