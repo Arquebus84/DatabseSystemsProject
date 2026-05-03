@@ -4,17 +4,23 @@ const result = require("mysql/lib/protocol/packets/OkPacket");
 exports.getAssignmentTable = (req, res) => {
     // SQL command. Names mush match name in index.js
     const sql = `
-        select f.facultyLastName AS facultyName, p.firstName AS firstName, p.lastName AS lastName, pr.patientRoomNumber AS roomNum,
+        select 
+            a.patientRoomID AS patientRoomID,
+            a.facultyID AS facultyID,
+            pr.patientRoomNumber AS roomNum,
+            p.firstName AS firstName,
+            p.lastName AS lastName,
+            f.facultyLastName AS facultyName,
         case
-            when (pr.patientRoomNumber >= 3000) then ifnull(ar.floorNumber, 3)
-            when (pr.patientRoomNumber >= 2000) then ifnull(ar.floorNumber, 2)
-            else ifnull(ar.floorNumber, 1)
+            when (pr.patientRoomNumber >= 3000) then ifnull(a.floorNumber, 3)
+            when (pr.patientRoomNumber >= 2000) then ifnull(a.floorNumber, 2)
+            else ifnull(a.floorNumber, 1)
         end AS FloorNumber
-        from assigned_room ar
+        from assigned_room a
         join patient_room pr
         join patient p
         join faculty f
-        where ar.patientRoomID = pr.patientRoomID AND ar.facultyID = f.facultyID AND pr.patientID = p.patientID
+        where a.patientRoomID = pr.patientRoomID AND a.facultyID = f.facultyID AND pr.patientID = p.patientID
         `;
 
     // Query server with SQL command
@@ -46,7 +52,7 @@ exports.setAssignmentTable = (req, res) => {
 
         // Run the insert with the required floorNumber
         const insertSql = `
-            INSERT INTO assigned_room (patientRoomID, facultyID)
+            INSERT INTO assigned_room (patientRoomID, facultyID, floorNumber)
             VALUES (?, ?, ?)`;
 
         pool.query(insertSql, [patientRoomID, facultyID, floorNumber], (err, result) => {
