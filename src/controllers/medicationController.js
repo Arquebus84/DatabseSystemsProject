@@ -3,21 +3,21 @@ const pool = require('../models/database');
 exports.getMedicationTable = (req, res) => {
     // SQL command. Names mush match name in index.js
     const sql = `
-        SELECT med.medicationType AS Medication, sys.price AS Price, sys.tax AS Tax 
+        SELECT med.medicationID AS ID, med.medicationType AS Medication, sys.price AS Price, sys.tax AS Tax, sys.paymentID AS payID
         FROM medication med
-        JOIN payment_system sys
+                 JOIN payment_system sys
         WHERE med.paymentID = sys.paymentID
     `;
 
     // Query server with SQL command
     pool.query(sql, (err, results) => {
-        if (err) return res.status(500).json({ error: err.message });
+        if (err) return res.status(500).json({error: err.message});
         res.json(results);
     });
 };
 
-exports.getMeds = (req, res)=>{
-    // SQL command. Names mush match name in index.js
+
+exports.getMeds = (req, res) => {
     const sql = `
         SELECT med.medicationType AS medicationType, med.medicationID AS medicationID
         FROM medication med
@@ -25,23 +25,63 @@ exports.getMeds = (req, res)=>{
 
     // Query server with SQL command
     pool.query(sql, (err, results) => {
-        if (err) return res.status(500).json({ error: err.message });
+        if (err) return res.status(500).json({error: err.message});
         res.json(results);
     });
 }
 
 exports.setMedicationTable = (req, res) => {
-    const { medicationName, medicationPrice, medicationTax } = req.body;
+    const {medicationName, medicationPrice, medicationTax} = req.body;
 
     // Run the insert
-    const paymentSql = `INSERT IGNORE INTO payment_system (price, tax) VALUES (?, ?)`;
+    const paymentSql = `INSERT INTO payment_system (price, tax)
+                        VALUES (?, ?)`;
 
-    const retrievePaymentIndex = `SELECT paymentID FROM payment_system sys WHERE sys.price = ? AND sys.tax = ?`
+    pool.query(paymentSql, [medicationPrice, medicationTax], (err, result) => {
 
-    pool.query(retrievePaymentIndex, [medicationPrice, medicationTax], (error, result)=>{
-        if(error) return result.status(500).json({error: error.message});
+        if(err) return res.status(500).json({error: err.message});
 
-        console.log(result);    //Check if the paymentID corresponds to the select
+        const newPayID = result.insertId;
+
+        // Run the insert
+        const medicationSql = `INSERT INTO medication (medicationType, paymentID)
+                               VALUES (?, ?)`;
+
+        pool.query(medicationSql, [medicationName, newPayID], (err, result) => {
+            if (err) return res.status(500).json({error: err.message});
+            res.json({message: "Saved successfully"});
+        });
+    });
+}
+
+exports.deleteMedTable = (req, res) =>{
+    const { medicationID } = req.params;
+
+    // Run the insert
+    const deleteSql = `DELETE FROM medication WHERE medicationID = ?`;
+
+    pool.query(deleteSql, [medicationID], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "Saved successfully"});
+    });
+};
+
+exports.updateMedicationTable = (req, res) => {
+    const {medicationID, paymentID, medicationName, medicationPrice, medicationTax} = req.body;
+
+    // Run the insert
+    const paymentSql = `UPDATE payment_system SET price = ?, tax = ? WHERE paymentID = ?`;
+
+    pool.query(paymentSql, [medicationPrice, medicationTax, paymentID], (err, result) => {
+        if (err) return res.status(500).json({error: err.message});
+
+        // Run the insert
+        const medicationSql = `UPDATE medication SET medicationType = ? WHERE medicationID = ?`;
+
+        pool.query(medicationSql, [medicationName, medicationID], (err, result) => {
+            if (err) return res.status(500).json({error: err.message});
+            res.json({message: "Saved successfully"});
+        });
     });
     //Disabled for testing
 

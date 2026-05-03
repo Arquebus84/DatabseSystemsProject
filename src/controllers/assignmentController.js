@@ -58,3 +58,15 @@ exports.setAssignmentTable = (req, res) => {
         });
     });
 };
+
+exports.deleteAssignmentTable = (req, res) =>{
+    const { patientRoomID, facultyID } = req.body;
+
+    // Run the insert
+    const deleteSql = `DELETE FROM assigned_room WHERE patientRoomID = ? AND facultyID = ?`;
+
+    pool.query(deleteSql, [patientRoomID, facultyID], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "Saved successfully"});
+    });
+};
