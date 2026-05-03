@@ -308,7 +308,22 @@ function updateAssignmentTable(){
                                 '</tr>' +
                                 '</table>';
 
-                            document.getElementById("insertContainer").innerHTML = insertion;
+                            document.getElementById("insertContainer").innerHTML =
+                                '<table class="insertTable">'+
+                                    '<tr><th>Patient</th><th>Faculty</th></tr>' +
+                                    '<tr>' +
+                                        '<td><select name="patients" class="insertOption" id="assignmentPatients">' +
+                                                insertionPatient +
+                                            '</select>'+
+                                        '</td>' +
+                                        '<td>' +
+                                            '<select name="faculty" class="insertOption" id="assignmentFaculty">' +
+                                                insertionFaculty +
+                                            '</select>' +
+                                        '</td>' +
+                                    '</tr>' +
+                                '</table>'
+                            ;
                             document.getElementById("addData").style.visibility = 'visible';
 
                             currentTable = "assignment";
