@@ -10,12 +10,7 @@ exports.getAssignmentTable = (req, res) => {
             pr.patientRoomNumber AS roomNum,
             p.firstName AS firstName,
             p.lastName AS lastName,
-            f.facultyLastName AS facultyName,
-        case
-            when (pr.patientRoomNumber >= 3000) then ifnull(a.floorNumber, 3)
-            when (pr.patientRoomNumber >= 2000) then ifnull(a.floorNumber, 2)
-            else ifnull(a.floorNumber, 1)
-        end AS FloorNumber
+            f.facultyLastName AS facultyName
         from assigned_room a
         join patient_room pr
         join patient p
